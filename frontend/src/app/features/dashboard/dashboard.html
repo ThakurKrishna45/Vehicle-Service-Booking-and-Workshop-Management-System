@@ -1,1 +1,59 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+
+  <h1>Customer Dashboard</h1>
+
+  <div class="cards-container">
+
+    <app-dashboard-card
+      [title]="'Total Bookings'"
+      [count]="totalBookings">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+      [title]="'Completed Services'"
+      [count]="completedServices">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+      [title]="'In Progress'"
+      [count]="inProgress">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+      [title]="'Ready For Delivery'"
+      [count]="readyForDelivery">
+    </app-dashboard-card>
+
+  </div>
+
+  <div class="recent-bookings">
+
+    <h2>Recent Service Bookings</h2>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Vehicle</th>
+          <th>Service</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (booking of recentBookings; track booking.bookingId) {
+          <tr>
+            <td>{{ booking.bookingId }}</td>
+            <td>{{ booking.vehicle }}</td>
+            <td>{{ booking.service }}</td>
+            <td>{{ booking.status }}</td>
+          </tr>
+        }
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
