@@ -1,0 +1,29 @@
+<div *ngIf="service">
+
+  <h2>{{service.name}}</h2>
+
+  <p>
+    Category :
+    {{service.category}}
+  </p>
+
+  <p>
+    Description :
+    {{service.description}}
+  </p>
+
+  <p>
+    Duration :
+    {{service.duration}}
+  </p>
+
+  <p>
+    Price :
+    ₹ {{service.price}}
+  </p>
+
+  <a routerLink="/booking">
+    Book Service
+  </a>
+
+</div>

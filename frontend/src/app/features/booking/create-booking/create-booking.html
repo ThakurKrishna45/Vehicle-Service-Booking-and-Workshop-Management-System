@@ -1,0 +1,46 @@
+<h2>Create Booking</h2>
+
+<form
+  [formGroup]="bookingForm"
+  (ngSubmit)="createBooking()">
+
+  <input
+    type="number"
+    placeholder="Vehicle Id"
+    formControlName="vehicleId">
+
+  <br><br>
+
+  <input
+    type="number"
+    placeholder="Service Id"
+    formControlName="serviceId">
+
+  <br><br>
+
+  <input
+    type="date"
+    formControlName="bookingDate">
+
+  <br><br>
+
+  <input
+    placeholder="Slot"
+    formControlName="slot">
+
+  <br><br>
+
+  <textarea
+    placeholder="Issue Description"
+    formControlName="issueDescription">
+  </textarea>
+
+  <br><br>
+
+  <button type="submit">
+
+    Book Service
+
+  </button>
+
+</form>

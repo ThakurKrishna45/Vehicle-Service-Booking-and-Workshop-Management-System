@@ -1,0 +1,17 @@
+.container{
+  width:80%;
+  margin:auto;
+}
+
+input{
+  width:300px;
+  padding:10px;
+  margin-bottom:20px;
+}
+
+.service-card{
+  border:1px solid #ccc;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:5px;
+}

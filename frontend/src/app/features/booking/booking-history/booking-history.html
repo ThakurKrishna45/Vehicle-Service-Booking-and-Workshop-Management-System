@@ -1,0 +1,29 @@
+<h2>Booking History</h2>
+
+<table>
+
+  <tr>
+
+    <th>Booking Id</th>
+
+    <th>Date</th>
+
+    <th>Slot</th>
+
+    <th>Status</th>
+
+  </tr>
+
+  <tr *ngFor="let booking of bookings">
+
+    <td>{{booking.id}}</td>
+
+    <td>{{booking.bookingDate}}</td>
+
+    <td>{{booking.slot}}</td>
+
+    <td>{{booking.status}}</td>
+
+  </tr>
+
+</table>

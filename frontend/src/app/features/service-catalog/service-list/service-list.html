@@ -1,0 +1,39 @@
+<div class="container">
+
+  <h2>Service Catalog</h2>
+
+  <input
+    type="text"
+    placeholder="Search Service"
+    [(ngModel)]="searchText"
+    (input)="search()">
+
+  <div class="service-card"
+       *ngFor="let service of filteredServices">
+
+    <h3>{{service.name}}</h3>
+
+    <p>
+      Category :
+      {{service.category}}
+    </p>
+
+    <p>
+      Duration :
+      {{service.duration}}
+    </p>
+
+    <p>
+      ₹ {{service.price}}
+    </p>
+
+    <a
+      [routerLink]="['/services',service.id]">
+
+      View Details
+
+    </a>
+
+  </div>
+
+</div>
