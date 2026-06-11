@@ -142,6 +142,50 @@ export const routes: Routes = [
   },
 
 
+  
+  {
+  path: 'profile',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/customer/profile/profile').then(
+      m => m.Profile
+    )
+  },
+
+  {
+  path: 'vehicles',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/vehicle/vehicle-list/vehicle-list').then(
+      m => m.VehicleList
+    )
+},
+{
+  path: 'vehicles/add',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/vehicle/add-vehicle/add-vehicle').then(
+      m => m.AddVehicle
+    )
+},
+
+{
+  path: 'vehicles/edit/:id',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/vehicle/edit-vehicle/edit-vehicle').then(
+      m => m.EditVehicle
+    )
+},
+{
+  path: 'profile',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/customer/profile/profile').then(
+      m => m.Profile
+    )
+},
+
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   { path: '**', redirectTo: 'dashboard' }
 ];
