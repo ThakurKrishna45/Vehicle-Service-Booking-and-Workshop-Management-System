@@ -1,20 +1,20 @@
 {
   "users": [
     {
-      "id": "1",
-      "name": "Admin",
-      "email": "admin@gmail.com",
-      "phone": "9999999999",
-      "password": "admin123",
-      "role": "admin"
+      "id": 1,
+      "name": "Demo Customer",
+      "email": "customer@example.com",
+      "phone": "9876543210",
+      "password": "customer123",
+      "role": "customer"
     },
     {
-      "id": "2",
-      "name": "Krishna",
-      "email": "krishna@gmail.com",
-      "phone": "8888888888",
-      "password": "123456",
-      "role": "customer"
+      "id": 2,
+      "name": "Service Admin",
+      "email": "admin@example.com",
+      "phone": "9876500000",
+      "password": "admin123",
+      "role": "admin"
     }
   ],
   "vehicles": [

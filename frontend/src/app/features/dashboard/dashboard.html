@@ -1,0 +1,226 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+
+  <!-- Hero + Quick Actions -->
+  <div class="hero-section">
+    <div class="hero-content">
+
+      <h1>Welcome Back, {{ user()?.name ?? 'Customer' }}</h1>
+      <p>Manage your vehicle services, bookings and tracking from one place.</p>
+
+      <div class="quick-actions">
+
+        <div class="action-card">
+          <div class="action-icon book-icon">BS</div>
+          <div>
+            <h3>Book Service</h3>
+            <span>Schedule your service</span>
+          </div>
+        </div>
+
+        <!-- Issue 3 fix: (click) calls goToTracking() -->
+        <div class="action-card" (click)="goToTracking()" style="cursor: pointer;">
+          <div class="action-icon track-icon">TS</div>
+          <div>
+            <h3>Track Service</h3>
+            <span>Track service progress</span>
+          </div>
+        </div>
+
+        <div class="action-card">
+          <div class="action-icon vehicle-icon">VH</div>
+          <div>
+            <h3>Vehicles</h3>
+            <span>Manage your vehicles</span>
+          </div>
+        </div>
+
+        <div class="action-card">
+          <div class="action-icon invoice-icon">IV</div>
+          <div>
+            <h3>Invoices</h3>
+            <span>View payment records</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="cards-container">
+
+    <app-dashboard-card
+      [title]="'Total Bookings'"
+      [count]="totalBookings"
+      [icon]="'📋'"
+      [subtitle]="'All Appointments'">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+      [title]="'Completed Services'"
+      [count]="completedServices"
+      [icon]="'✅'"
+      [subtitle]="'Successfully Delivered'">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+      [title]="'In Progress'"
+      [count]="inProgress"
+      [icon]="'🔧'"
+      [subtitle]="'Currently Under Service'">
+    </app-dashboard-card>
+
+    <app-dashboard-card
+      [title]="'Ready For Delivery'"
+      [count]="readyForDelivery"
+      [icon]="'🚗'"
+      [subtitle]="'Awaiting Pickup'">
+    </app-dashboard-card>
+
+  </div>
+
+  <!-- Overview: Service Progress + Upcoming Appointment -->
+  <div class="dashboard-overview">
+
+    <div class="service-progress">
+
+      <h2>Current Service Progress</h2>
+
+      <div class="service-vehicle">
+        <img src="https://img.icons8.com/color/96/car.png" alt="Vehicle" class="vehicle-image">
+        <div class="vehicle-info">
+          <h3>Honda City</h3>
+          <p>Premium Service</p>
+          <span class="vehicle-number">KA01AB1234</span>
+        </div>
+      </div>
+
+      <div class="timeline">
+
+        <div class="timeline-item completed">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <span>Vehicle Received</span>
+            <span class="timeline-date">10 Jun, 09:30 AM</span>
+          </div>
+        </div>
+
+        <div class="timeline-item completed">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <span>Inspection Complete</span>
+            <span class="timeline-date">10 Jun, 11:00 AM</span>
+          </div>
+        </div>
+
+        <div class="timeline-item active">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <span>Repair In Progress</span>
+            <span class="timeline-date">11 Jun, 02:00 PM</span>
+          </div>
+        </div>
+
+        <div class="timeline-item pending">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <span>Quality Check</span>
+          </div>
+        </div>
+
+        <div class="timeline-item pending">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <span>Ready For Delivery</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="delivery-box">
+        <div>
+          <small>Estimated Delivery</small>
+          <h4>15 June 2026</h4>
+        </div>
+        <div>
+          <small>Status</small>
+          <h4>2 Days Left</h4>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="upcoming-appointment">
+
+      <h2>Upcoming Appointment</h2>
+
+      <div class="service-vehicle">
+        <img src="https://img.icons8.com/color/96/car.png" alt="Vehicle" class="vehicle-image">
+        <div class="vehicle-info">
+          <h3>Hyundai i20</h3>
+          <p>AC Service</p>
+          <span class="vehicle-number">KA02CD5678</span>
+        </div>
+      </div>
+
+      <div class="appointment-details">
+
+        <div class="detail-row">
+          <span>Date</span>
+          <strong>15 June 2026</strong>
+        </div>
+
+        <div class="detail-row">
+          <span>Time</span>
+          <strong>10:00 AM</strong>
+        </div>
+
+        <div class="detail-row">
+          <span>Workshop</span>
+          <strong>Sprint Auto Care</strong>
+        </div>
+
+        <div class="detail-row">
+          <span>Status</span>
+          <span class="status-badge">Confirmed</span>
+        </div>
+
+      </div>
+
+      <button class="reschedule-btn">Reschedule</button>
+
+    </div>
+
+  </div>
+
+  <!-- Recent Bookings -->
+  <div class="recent-bookings">
+
+    <h2>Recent Service Bookings</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Vehicle</th>
+          <th>Service</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (booking of recentBookings; track booking.bookingId) {
+          <tr>
+            <td>{{ booking.bookingId }}</td>
+            <td>{{ booking.vehicle }}</td>
+            <td>{{ booking.service }}</td>
+            <td>{{ booking.status }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+  </div>
+
+</div>

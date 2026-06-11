@@ -1,0 +1,32 @@
+<main class="auth-page">
+  <section class="auth-card">
+    <div class="brand-mark">VS</div>
+    <p class="eyebrow">Vehicle Service Portal</p>
+    <h1>Welcome back</h1>
+    <p class="subtitle">Sign in to manage bookings and track your vehicle service.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label for="email">Email address</label>
+      <input id="email" type="email" formControlName="email" placeholder="you@example.com" autocomplete="email">
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <small class="field-error">Enter a valid email address.</small>
+      }
+
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" placeholder="At least 6 characters" autocomplete="current-password">
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <small class="field-error">Password must be at least 6 characters.</small>
+      }
+
+      @if (errorMessage()) {
+        <div class="alert" role="alert">{{ errorMessage() }}</div>
+      }
+
+      <button type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+
+    <p class="switch-page">New here? <a routerLink="/register">Create an account</a></p>
+  </section>
+</main>
