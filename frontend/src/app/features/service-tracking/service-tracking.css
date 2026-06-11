@@ -1,0 +1,380 @@
+/* ─────────────────────────────────────────────
+   Service Tracking Page
+   Matches dashboard: #f5f7fb bg, white cards,
+   #2563eb primary, Inter font, 10-12px radius
+   ───────────────────────────────────────────── */
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f5f7fb;
+  font-family: 'Inter', sans-serif;
+}
+
+.tracking-page {
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+/* ── Page Header ── */
+.page-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 20px 32px;
+}
+
+/*
+  KEY FIX (Issue 1):
+  Both .page-header-inner and .tracking-content use
+  max-width: 1600px + margin: 0 auto + padding: 0 32px
+  so ALL sections — header, two-card row, updates table —
+  are constrained to exactly the same horizontal box.
+*/
+.page-header-inner,
+.tracking-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 0; /* horizontal padding lives on .page-header / .tracking-content */
+}
+
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  font-family: 'Inter', sans-serif;
+  transition: opacity 0.15s;
+}
+
+.back-btn:hover {
+  opacity: 0.7;
+}
+
+.back-icon {
+  font-size: 15px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ── Content Wrapper ── */
+.tracking-content {
+  padding: 24px 32px;   /* same horizontal padding as .page-header */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Card Base ── */
+.card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  padding: 20px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Two-Column Row ── */
+/*
+  KEY FIX (Issue 1):
+  .tracking-cards-row and .updates-card are both direct
+  children of .tracking-content, so they share the same
+  width automatically — no extra width overrides needed.
+  Removing width: 100% from .updates-card (which could
+  fight against box-sizing) and letting flexbox handle it.
+*/
+.tracking-cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* ─────────────────────────────────────────────
+   Vehicle Card
+   ───────────────────────────────────────────── */
+.vehicle-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.vehicle-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f2f5;
+  margin-bottom: 20px;
+}
+
+.vehicle-icon-wrapper {
+  width: 70px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vehicle-img {
+  width: 70px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.vehicle-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 2px 0;
+}
+
+.vehicle-service {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 4px 0;
+}
+
+.vehicle-reg {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* Detail rows */
+.vehicle-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 20px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 14px;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.detail-value {
+  color: #111827;
+  font-weight: 500;
+}
+
+/* Status badge */
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-active {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* Delivery highlight */
+.delivery-highlight {
+  background: #eff6ff;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+}
+
+.delivery-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.delivery-icon {
+  font-size: 20px;
+}
+
+.delivery-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.delivery-label {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.delivery-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.days-remaining {
+  color: #2563eb;
+}
+
+.delivery-divider {
+  width: 1px;
+  height: 36px;
+  background: #bfdbfe;
+  margin: 0 16px;
+}
+
+/* ─────────────────────────────────────────────
+   Updates Table Card
+   ───────────────────────────────────────────── */
+
+.updates-count {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.updates-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.updates-table thead tr {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.updates-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1f2937;
+  background: #f8fafc;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.updates-table td {
+  padding: 14px 14px;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+.updates-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.updates-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.col-date {
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+}
+
+.col-time {
+  white-space: nowrap;
+  color: #64748b;
+}
+
+.col-update {
+  color: #374151;
+}
+
+.col-status {
+  white-space: nowrap;
+}
+
+.update-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-received  { background: #eff6ff; color: #2563eb; }
+.badge-completed { background: #dcfce7; color: #15803d; }
+.badge-progress  { background: #fef9c3; color: #ca8a04; }
+.badge-pending   { background: #f3f4f6; color: #6b7280; }
+
+/* ─────────────────────────────────────────────
+   Responsive
+   ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .tracking-cards-row {
+    grid-template-columns: 1fr;
+  }
+
+  .tracking-content,
+  .page-header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .delivery-highlight {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .delivery-divider {
+    width: 100%;
+    height: 1px;
+    margin: 0;
+  }
+}

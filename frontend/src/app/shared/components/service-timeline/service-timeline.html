@@ -1,1 +1,45 @@
-<p>service-timeline works!</p>
+<div class="timeline">
+
+  @for (stage of stages; track stage.label; let last = $last) {
+
+    <div
+      class="timeline-item"
+      [class.timeline-completed]="stage.status === 'completed'"
+      [class.timeline-active]="stage.status === 'active'"
+      [class.timeline-pending]="stage.status === 'pending'"
+    >
+
+      <!-- Dot + vertical connector line -->
+      <div class="timeline-connector-wrap">
+
+        <div class="timeline-dot">
+          @if (stage.status === 'completed') {
+            <span class="dot-check">✓</span>
+          }
+          @if (stage.status === 'active') {
+            <span class="dot-inner"></span>
+          }
+        </div>
+
+        @if (!last) {
+          <div class="timeline-line"></div>
+        }
+
+      </div>
+
+      <!-- Label + timestamp -->
+      <div class="timeline-content">
+        <span class="timeline-label">{{ stage.label }}</span>
+
+        @if (stage.timestamp) {
+          <span class="timeline-timestamp">{{ stage.timestamp }}</span>
+        } @else {
+          <span class="timeline-timestamp pending-text">Pending</span>
+        }
+      </div>
+
+    </div>
+
+  }
+
+</div>

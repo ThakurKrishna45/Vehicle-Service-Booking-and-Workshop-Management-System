@@ -11,5 +11,7 @@ export class DashboardCard {
 
   @Input() title: string = '';
   @Input() count: number = 0;
+  @Input() icon = '';
+@Input() subtitle = '';
 
 }
