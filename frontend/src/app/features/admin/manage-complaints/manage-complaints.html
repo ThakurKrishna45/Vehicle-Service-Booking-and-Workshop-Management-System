@@ -10,77 +10,98 @@
 
   </div>
 
-  <div
-    class="complaint-card"
-    *ngFor="let complaint of complaints">
+  @for (
+    complaint of complaints();
+    track complaint.id
+  ) {
 
-    <div class="complaint-top">
+    <div class="complaint-card">
 
-      <div>
+      <div class="complaint-top">
 
-        <h3>
-          {{ complaint.subject }}
-        </h3>
+        <div>
 
-        <p>
-          Complaint ID :
-          {{ complaint.id }}
-        </p>
+          <h3>
+            {{ complaint.subject }}
+          </h3>
 
-        <p>
-          Booking ID :
-          {{ complaint.bookingId }}
-        </p>
+          <p>
+            Complaint ID :
+            {{ complaint.id }}
+          </p>
 
-        <p>
-          Customer ID :
-          {{ complaint.customerId }}
-        </p>
+          <p>
+            Booking ID :
+            {{ complaint.bookingId }}
+          </p>
+
+          <p>
+            Customer ID :
+            {{ complaint.customerId }}
+          </p>
+
+        </div>
+
+        <span
+          class="status-badge"
+          [ngClass]="{
+            'open': complaint.status === 'Pending',
+            'review': complaint.status === 'In Review',
+            'resolved': complaint.status === 'Resolved'
+          }">
+
+          {{ complaint.status }}
+
+        </span>
 
       </div>
 
-      <span
-        class="status-badge"
-        [ngClass]="{
-          'open': complaint.status === 'Pending',
-          'review': complaint.status === 'In Review',
-          'resolved': complaint.status === 'Resolved'
-        }">
+      <div class="description">
 
-        {{ complaint.status }}
+        {{ complaint.description }}
 
-      </span>
+      </div>
 
-    </div>
+      <div class="actions">
 
-    <div class="description">
+        @if (
+          complaint.status === 'Pending'
+        ) {
 
-      {{ complaint.description }}
+          <button
+            class="review-btn"
+            (click)="markAsReview(complaint)">
 
-    </div>
+            Mark In Review
 
-    <div class="actions">
+          </button>
 
-      <button
-        class="review-btn"
-        (click)="markAsReview(complaint)"
-        *ngIf="complaint.status === 'Pending'">
+        }
 
-        Mark In Review
+        @if (
+          complaint.status !== 'Resolved'
+        ) {
 
-      </button>
+          <button
+            class="resolve-btn"
+            (click)="markAsResolved(complaint)">
 
-      <button
-        class="resolve-btn"
-        (click)="markAsResolved(complaint)"
-        *ngIf="complaint.status !== 'Resolved'">
+            Mark As Resolved
 
-        Mark As Resolved
+          </button>
 
-      </button>
+        }
+
+      </div>
 
     </div>
 
-  </div>
+  } @empty {
+
+    <p>
+      No complaints found.
+    </p>
+
+  }
 
 </div>

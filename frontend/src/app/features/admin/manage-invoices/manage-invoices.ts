@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -10,37 +10,51 @@ import { InvoiceService } from '../../../core/services/invoice';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './manage-invoices.html',
-  styleUrls: ['./manage-invoices.css']
+  styleUrl: './manage-invoices.css'
 })
-export class ManageInvoices implements OnInit {
+export class ManageInvoices {
 
-  invoices: Invoice[] = [];
+  private invoiceService =
+    inject(InvoiceService);
 
-  constructor(
-    private invoiceService: InvoiceService
-  ) {}
+  invoices =
+    signal<Invoice[]>([]);
 
-  ngOnInit(): void {
+  constructor() {
 
-  console.log('ManageInvoices Loaded');
+    console.log(
+      'ManageInvoices Loaded'
+    );
 
-  this.invoiceService
-    .getAllInvoices()
-    .subscribe({
-      next: (data) => {
+    this.loadInvoices();
 
-        console.log('Invoices Received:', data);
+  }
 
-        this.invoices = data;
+  loadInvoices(): void {
 
-      },
-      error: (err) => {
+    this.invoiceService
+      .getAllInvoices()
+      .subscribe({
+        next: (data) => {
 
-        console.error('Invoice API Error:', err);
+          console.log(
+            'Invoices Received:',
+            data
+          );
 
-      }
-    });
+          this.invoices.set(data);
 
-}
+        },
+        error: (err) => {
+
+          console.error(
+            'Invoice API Error:',
+            err
+          );
+
+        }
+      });
+
+  }
 
 }

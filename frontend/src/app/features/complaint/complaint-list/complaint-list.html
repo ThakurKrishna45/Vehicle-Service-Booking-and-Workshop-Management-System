@@ -1,27 +1,29 @@
 <div class="page-container">
 
-<h2>My Complaints</h2>
+  <h2>My Complaints</h2>
 
-<div
- class="complaint-card"
- *ngFor="let complaint of complaints">
+  @for (complaint of complaints(); track complaint.id) {
 
- <div>
+    <div class="complaint-card">
 
-  <h3>{{complaint.subject}}</h3>
+      <div>
+        <h3>{{ complaint.subject }}</h3>
 
-  <p>
-   Booking #{{complaint.bookingId}}
-  </p>
+        <p>
+          Booking #{{ complaint.bookingId }}
+        </p>
+      </div>
 
- </div>
+      <span>
+        {{ complaint.status }}
+      </span>
 
- <span>
+    </div>
 
-  {{complaint.status}}
+  } @empty {
 
- </span>
+    <p>No complaints found.</p>
 
-</div>
+  }
 
 </div>

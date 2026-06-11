@@ -1,48 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-import { Invoice } from '../../../core/models/invoice';
 import { InvoiceService } from '../../../core/services/invoice';
+import { Invoice } from '../../../core/models/invoice';
 
 @Component({
   selector: 'app-invoice-details',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './invoice-details.html',
-  styleUrls: ['./invoice-details.css']
+  styleUrl: './invoice-details.css'
 })
-export class InvoiceDetails implements OnInit {
+export class InvoiceDetails {
 
-  invoice!: Invoice;
+  private route = inject(ActivatedRoute);
+  private invoiceService = inject(InvoiceService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private invoiceService: InvoiceService
-  ) {}
+  invoice = signal<Invoice | null>(null);
 
-  ngOnInit(): void {
+  constructor() {
 
     const id = Number(
       this.route.snapshot.paramMap.get('id')
     );
 
+    console.log('Invoice ID:', id);
+
     this.invoiceService
       .getInvoiceById(id)
       .subscribe({
-        next: (data) => {
-          this.invoice = data;
+        next: data => {
+          console.log(data);
+          this.invoice.set(data);
         },
-        error: (err) => {
-          console.error(err);
-        }
+        error: err => console.error(err)
       });
-  }
 
-  getSubTotal(): number {
-    return (
-      this.invoice.serviceCharge +
-      this.invoice.partsCharge
-    );
   }
 }

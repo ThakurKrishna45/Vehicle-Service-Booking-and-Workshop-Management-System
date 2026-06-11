@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 
 import { ComplaintService } from '../../../core/services/complaint';
@@ -9,17 +14,17 @@ import { Complaint } from '../../../core/models/complaint';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './manage-complaints.html',
-  styleUrls: ['./manage-complaints.css']
+  styleUrl: './manage-complaints.css'
 })
-export class ManageComplaints implements OnInit {
+export class ManageComplaints {
 
-  complaints: Complaint[] = [];
+  private complaintService =
+    inject(ComplaintService);
 
-  constructor(
-    private complaintService: ComplaintService
-  ) {}
+  complaints =
+    signal<Complaint[]>([]);
 
-  ngOnInit(): void {
+  constructor() {
     this.loadComplaints();
   }
 
@@ -27,15 +32,29 @@ export class ManageComplaints implements OnInit {
 
     this.complaintService
       .getAllComplaints()
-      .subscribe(data => {
+      .subscribe({
+        next: (data) => {
 
-        this.complaints = data;
+          console.log(
+            'Complaints:',
+            data
+          );
 
+          this.complaints.set(data);
+
+        },
+        error: (err) => {
+
+          console.error(err);
+
+        }
       });
 
   }
 
-  markAsResolved(complaint: Complaint): void {
+  markAsResolved(
+    complaint: Complaint
+  ): void {
 
     const updatedComplaint = {
       ...complaint,
@@ -49,13 +68,25 @@ export class ManageComplaints implements OnInit {
       )
       .subscribe(() => {
 
-        complaint.status = 'Resolved';
+        this.complaints.update(
+          complaints =>
+            complaints.map(c =>
+              c.id === complaint.id
+                ? {
+                    ...c,
+                    status: 'Resolved'
+                  }
+                : c
+            )
+        );
 
       });
 
   }
 
-  markAsReview(complaint: Complaint): void {
+  markAsReview(
+    complaint: Complaint
+  ): void {
 
     const updatedComplaint = {
       ...complaint,
@@ -69,7 +100,17 @@ export class ManageComplaints implements OnInit {
       )
       .subscribe(() => {
 
-        complaint.status = 'In Review';
+        this.complaints.update(
+          complaints =>
+            complaints.map(c =>
+              c.id === complaint.id
+                ? {
+                    ...c,
+                    status: 'In Review'
+                  }
+                : c
+            )
+        );
 
       });
 

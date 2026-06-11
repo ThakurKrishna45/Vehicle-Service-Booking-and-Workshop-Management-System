@@ -1,71 +1,37 @@
-<div class="details-container" *ngIf="invoice">
+@if (invoice(); as inv) {
+
+<div class="details-container">
 
   <div class="page-header">
-
     <h1>Invoice Details</h1>
-
-    <p>
-      Detailed invoice information
-    </p>
-
+    <p>Detailed invoice information</p>
   </div>
 
   <div class="invoice-card">
 
     <div class="card-header">
-
-      <h2>
-        Invoice #{{ invoice.id }}
-      </h2>
-
+      <h2>Invoice #{{ inv.id }}</h2>
       <span class="invoice-date">
-        {{ invoice.invoiceDate }}
+        {{ inv.invoiceDate }}
       </span>
-
     </div>
 
     <div class="invoice-grid">
 
       <div class="info-box">
-
         <h3>Invoice Information</h3>
 
-        <p>
-          <strong>Invoice ID :</strong>
-          {{ invoice.id }}
-        </p>
-
-        <p>
-          <strong>Booking ID :</strong>
-          {{ invoice.bookingId }}
-        </p>
-
-        <p>
-          <strong>Date :</strong>
-          {{ invoice.invoiceDate }}
-        </p>
-
+        <p><strong>Invoice ID :</strong> {{ inv.id }}</p>
+        <p><strong>Booking ID :</strong> {{ inv.bookingId }}</p>
+        <p><strong>Date :</strong> {{ inv.invoiceDate }}</p>
       </div>
 
       <div class="info-box">
-
         <h3>Payment Summary</h3>
 
-        <p>
-          <strong>Service Charge :</strong>
-          ₹{{ invoice.serviceCharge }}
-        </p>
-
-        <p>
-          <strong>Parts Charge :</strong>
-          ₹{{ invoice.partsCharge }}
-        </p>
-
-        <p>
-          <strong>Tax :</strong>
-          ₹{{ invoice.tax }}
-        </p>
-
+        <p><strong>Service Charge :</strong> ₹{{ inv.serviceCharge }}</p>
+        <p><strong>Parts Charge :</strong> ₹{{ inv.partsCharge }}</p>
+        <p><strong>Tax :</strong> ₹{{ inv.tax }}</p>
       </div>
 
     </div>
@@ -76,42 +42,26 @@
 
       <table>
 
-        <thead>
-
-          <tr>
-            <th>Description</th>
-            <th>Amount</th>
-          </tr>
-
-        </thead>
-
         <tbody>
-
           <tr>
             <td>Service Charges</td>
-            <td>₹{{ invoice.serviceCharge }}</td>
+            <td>₹{{ inv.serviceCharge }}</td>
           </tr>
 
           <tr>
             <td>Parts Charges</td>
-            <td>₹{{ invoice.partsCharge }}</td>
-          </tr>
-
-          <tr>
-            <td>Subtotal</td>
-            <td>₹{{ getSubTotal() }}</td>
+            <td>₹{{ inv.partsCharge }}</td>
           </tr>
 
           <tr>
             <td>Tax</td>
-            <td>₹{{ invoice.tax }}</td>
+            <td>₹{{ inv.tax }}</td>
           </tr>
 
           <tr class="total-row">
             <td>Total Amount</td>
-            <td>₹{{ invoice.totalAmount }}</td>
+            <td>₹{{ inv.totalAmount }}</td>
           </tr>
-
         </tbody>
 
       </table>
@@ -121,3 +71,5 @@
   </div>
 
 </div>
+
+}

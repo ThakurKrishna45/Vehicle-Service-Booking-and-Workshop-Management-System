@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router';
 
+import { AuthService } from '../../../core/services/auth.service';
 import { StatusFormatPipe } from '../../../shared/pipes/status-format-pipe';
 
 import * as DashboardActions from '../../../store/admin-dashboard-filter/dashboard.actions';
@@ -11,7 +17,12 @@ import { selectDashboardStats } from '../../../store/admin-dashboard-filter/dash
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, StatusFormatPipe],
+  imports: [
+    CommonModule,
+    StatusFormatPipe,
+    RouterLink,
+    RouterLinkActive
+  ],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css'
 })
@@ -19,11 +30,12 @@ export class AdminDashboard implements OnInit {
 
   adminName = 'Admin';
 
-  // NgRx Store Data
   stats$!: Observable<any[]>;
 
   constructor(
-    private store: Store
+    private store: Store,
+    private auth: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -35,6 +47,14 @@ export class AdminDashboard implements OnInit {
     this.stats$ = this.store.select(
       selectDashboardStats
     );
+
+  }
+
+  logout(): void {
+
+    this.auth.logout();
+    this.router.navigate(['/login']);
+
   }
 
   technicians = [

@@ -1,38 +1,57 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 
+import { Complaint } from '../../../core/models/complaint';
+import { ComplaintService } from '../../../core/services/complaint';
+
 @Component({
- selector:'app-complaint-list',
- standalone:true,
- imports:[CommonModule],
- templateUrl:'./complaint-list.html',
- styleUrls:['./complaint-list.css']
+  selector: 'app-complaint-list',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './complaint-list.html',
+  styleUrl: './complaint-list.css'
 })
 export class ComplaintList {
 
- complaints = [
+  private complaintService =
+    inject(ComplaintService);
 
- {
-  id:1,
-  bookingId:101,
-  subject:'Brake Issue',
-  status:'OPEN'
- },
+  complaints =
+    signal<Complaint[]>([]);
 
- {
-  id:2,
-  bookingId:102,
-  subject:'Late Delivery',
-  status:'IN REVIEW'
- },
+  constructor() {
 
- {
-  id:3,
-  bookingId:103,
-  subject:'Engine Noise',
-  status:'RESOLVED'
- }
+    this.loadComplaints();
 
- ];
+  }
+
+  loadComplaints(): void {
+
+    this.complaintService
+      .getAllComplaints()
+      .subscribe({
+        next: (data) => {
+
+          console.log(
+            'Complaints:',
+            data
+          );
+
+          this.complaints.set(data);
+
+        },
+        error: (err) => {
+
+          console.error(err);
+
+        }
+      });
+
+  }
 
 }
