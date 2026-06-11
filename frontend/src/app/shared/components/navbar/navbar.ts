@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, computed } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,18 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.css'
 })
 export class Navbar {
+  readonly userName = computed(() => this.auth.currentUser()?.name ?? 'User');
+  readonly portalName = computed(() =>
+    this.auth.currentUser()?.role === 'admin' ? 'Admin Portal' : 'Customer Portal'
+  );
 
-  userName = 'Customer';
+  constructor(
+    private readonly auth: AuthService,
+    private readonly router: Router
+  ) {}
 
+  logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
 }

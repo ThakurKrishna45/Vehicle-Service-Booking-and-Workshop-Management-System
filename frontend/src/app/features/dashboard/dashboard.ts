@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DashboardCard } from '../../shared/components/dashboard-card/dashboard-card';
 import { Navbar } from '../../shared/components/navbar/navbar';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,8 +12,10 @@ import { Navbar } from '../../shared/components/navbar/navbar';
   styleUrl: './dashboard.css'
 })
 export class Dashboard {
+  private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
 
-  constructor(private router: Router) {}
+  readonly user = this.auth.currentUser;
 
   totalBookings = 12;
   completedServices = 8;

@@ -6,7 +6,7 @@
   <div class="hero-section">
     <div class="hero-content">
 
-      <h1>Welcome Back, Customer</h1>
+      <h1>Welcome Back, {{ user()?.name ?? 'Customer' }}</h1>
       <p>Manage your vehicle services, bookings and tracking from one place.</p>
 
       <div class="quick-actions">
