@@ -39,19 +39,18 @@
 
     <br>
 
-    <input
+<input
   type="date"
   formControlName="bookingDate">
 
-@if(
- bookingForm.get('bookingDate')
- ?.errors?.['invalidDate']
-){
-
+@if (
+  bookingForm.get('bookingDate')?.hasError('invalidDate')
+  &&
+  bookingForm.get('bookingDate')?.touched
+) {
   <p class="error">
     Past dates are not allowed
   </p>
-
 }
 
   </div>
