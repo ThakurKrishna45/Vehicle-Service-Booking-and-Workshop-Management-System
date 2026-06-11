@@ -1,0 +1,28 @@
+<div class="page-container">
+
+<h2>Service Status Update</h2>
+
+<div class="status-card">
+
+<label>Select Status</label>
+
+<select [(ngModel)]="selectedStatus">
+
+<option
+*ngFor="let status of statuses">
+
+{{status}}
+
+</option>
+
+</select>
+
+<button>
+
+Update Status
+
+</button>
+
+</div>
+
+</div>

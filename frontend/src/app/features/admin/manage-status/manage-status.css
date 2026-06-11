@@ -1,0 +1,21 @@
+.status-card{
+background:white;
+padding:30px;
+border-radius:20px;
+width:500px;
+}
+
+select{
+width:100%;
+padding:12px;
+margin-top:15px;
+margin-bottom:20px;
+}
+
+button{
+background:#2563eb;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+}

@@ -1,0 +1,257 @@
+<div class="dashboard-container">
+
+  <div class="welcome-section">
+
+    <div>
+      <h1>
+        Welcome Back, {{adminName}}
+      </h1>
+
+      <p>
+        Vehicle Service Booking & Workshop Management
+      </p>
+    </div>
+
+    <div class="profile-box">
+      A
+    </div>
+
+  </div>
+
+  <!-- KPI Cards -->
+
+  <div class="stats-grid">
+
+    <div
+      class="stat-card"
+      *ngFor="let stat of (stats$ | async)">
+
+      <div class="stat-icon">
+        {{stat.icon}}
+      </div>
+
+      <div>
+
+        <h2>{{stat.value}}</h2>
+
+        <p>{{stat.title}}</p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Quick Actions -->
+
+<div class="section-header">
+  Quick Actions
+</div>
+
+<div class="action-grid">
+
+  <button routerLink="/admin/users" class="action-card">
+    👤 User Management
+  </button>
+
+  <button routerLink="/vehicles" class="action-card">
+    🚗 Vehicle Management
+  </button>
+
+  <button routerLink="/services" class="action-card">
+    🛠 Service Catalog
+  </button>
+
+  <button routerLink="/booking-history" class="action-card">
+    📅 Booking Management
+  </button>
+
+  <button routerLink="/tracking" class="action-card">
+    📍 Service Tracking
+  </button>
+
+  <button routerLink="/admin/invoices" class="action-card">
+    💰 Invoice Management
+  </button>
+
+  <button routerLink="/admin/complaints" class="action-card">
+    ⚠ Complaint Management
+  </button>
+
+  <button routerLink="/admin/status" class="action-card">
+    🔄 Update Service Status
+  </button>
+
+</div>
+
+  <!-- Main Grid -->
+
+  <div class="dashboard-grid">
+
+    <!-- Recent Bookings -->
+
+    <div class="dashboard-card booking-card">
+
+      <div class="card-header">
+        Recent Bookings
+      </div>
+
+      <table>
+
+        <thead>
+
+        <tr>
+          <th>ID</th>
+          <th>Customer</th>
+          <th>Vehicle</th>
+          <th>Status</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr *ngFor="let booking of recentBookings">
+
+          <td>#{{booking.id}}</td>
+
+          <td>{{booking.customer}}</td>
+
+          <td>{{booking.vehicle}}</td>
+
+          <td>
+
+            <span class="status">
+
+              {{booking.status | statusFormat}}
+
+            </span>
+
+          </td>
+
+        </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- Technicians -->
+
+    <div class="dashboard-card">
+
+      <div class="card-header">
+        Technician Overview
+      </div>
+
+      <div
+        class="technician"
+        *ngFor="let tech of technicians">
+
+        <div>
+
+          <h4>{{tech.name}}</h4>
+
+          <small>
+            {{tech.specialization}}
+          </small>
+
+        </div>
+
+        <span
+          class="tech-status"
+          [class.available]="tech.status==='Available'"
+          [class.busy]="tech.status==='Busy'">
+
+          {{tech.status}}
+
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bottom Grid -->
+
+  <div class="bottom-grid">
+
+    <!-- Complaints -->
+
+    <div class="dashboard-card">
+
+      <div class="card-header">
+
+        Complaint Center
+
+      </div>
+
+      <div
+        *ngFor="let complaint of complaints"
+        class="complaint-row">
+
+        <span>
+
+          {{complaint.subject}}
+
+        </span>
+
+        <span class="complaint-status">
+
+          {{complaint.status | statusFormat}}
+
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- Service Progress -->
+
+    <div class="dashboard-card">
+
+      <div class="card-header">
+
+        Service Progress
+
+      </div>
+
+      <div class="progress-row">
+
+        <span>Received</span>
+
+        <span>15</span>
+
+      </div>
+
+      <div class="progress-row">
+
+        <span>Inspection</span>
+
+        <span>9</span>
+
+      </div>
+
+      <div class="progress-row">
+
+        <span>Repair</span>
+
+        <span>12</span>
+
+      </div>
+
+      <div class="progress-row">
+
+        <span>Ready</span>
+
+        <span>6</span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

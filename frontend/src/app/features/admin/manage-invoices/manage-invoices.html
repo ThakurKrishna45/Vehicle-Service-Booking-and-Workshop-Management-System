@@ -1,0 +1,62 @@
+<div class="page-container">
+
+  <h2>Invoice Management</h2>
+
+  <table>
+
+    <thead>
+
+      <tr>
+        <th>Invoice ID</th>
+        <th>Booking ID</th>
+        <th>Service Charge</th>
+        <th>Parts Charge</th>
+        <th>Tax</th>
+        <th>Total Amount</th>
+        <th>Invoice Date</th>
+        <th>Action</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let invoice of invoices">
+
+        <td>#{{ invoice.id }}</td>
+
+        <td>#{{ invoice.bookingId }}</td>
+
+        <td>₹{{ invoice.serviceCharge }}</td>
+
+        <td>₹{{ invoice.partsCharge }}</td>
+
+        <td>₹{{ invoice.tax }}</td>
+
+        <td class="total-amount">
+          ₹{{ invoice.totalAmount }}
+        </td>
+
+        <td>
+          {{ invoice.invoiceDate }}
+        </td>
+
+        <td>
+
+          <button
+            class="view-btn"
+            [routerLink]="['/invoice-details', invoice.id]">
+
+            View Details
+
+          </button>
+
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

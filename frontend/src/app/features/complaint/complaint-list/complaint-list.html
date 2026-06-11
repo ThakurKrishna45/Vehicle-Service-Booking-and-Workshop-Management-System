@@ -1,0 +1,27 @@
+<div class="page-container">
+
+<h2>My Complaints</h2>
+
+<div
+ class="complaint-card"
+ *ngFor="let complaint of complaints">
+
+ <div>
+
+  <h3>{{complaint.subject}}</h3>
+
+  <p>
+   Booking #{{complaint.bookingId}}
+  </p>
+
+ </div>
+
+ <span>
+
+  {{complaint.status}}
+
+ </span>
+
+</div>
+
+</div>
