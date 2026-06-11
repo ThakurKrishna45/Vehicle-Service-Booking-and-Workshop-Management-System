@@ -1,0 +1,44 @@
+<main class="auth-page">
+  <section class="auth-card">
+    <div class="brand-mark">VS</div>
+    <p class="eyebrow">Vehicle Service Portal</p>
+    <h1>Create your account</h1>
+    <p class="subtitle">Register as a customer to book and manage vehicle services.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label for="name">Full name</label>
+      <input id="name" type="text" formControlName="name" placeholder="Your full name" autocomplete="name">
+      @if (form.controls.name.touched && form.controls.name.invalid) {
+        <small class="field-error">Enter at least 2 characters.</small>
+      }
+
+      <label for="email">Email address</label>
+      <input id="email" type="email" formControlName="email" placeholder="you@example.com" autocomplete="email">
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <small class="field-error">Enter a valid email address.</small>
+      }
+
+      <label for="phone">Phone number</label>
+      <input id="phone" type="tel" formControlName="phone" placeholder="+91 98765 43210" autocomplete="tel">
+      @if (form.controls.phone.touched && form.controls.phone.invalid) {
+        <small class="field-error">Enter a valid phone number.</small>
+      }
+
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" placeholder="At least 6 characters" autocomplete="new-password">
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <small class="field-error">Password must be at least 6 characters.</small>
+      }
+
+      @if (errorMessage()) {
+        <div class="alert" role="alert">{{ errorMessage() }}</div>
+      }
+
+      <button type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Creating account...' : 'Create account' }}
+      </button>
+    </form>
+
+    <p class="switch-page">Already registered? <a routerLink="/login">Sign in</a></p>
+  </section>
+</main>

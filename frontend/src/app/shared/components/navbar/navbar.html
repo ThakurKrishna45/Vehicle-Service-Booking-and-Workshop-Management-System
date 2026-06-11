@@ -7,7 +7,7 @@
     </div>
 
     <span class="portal-name">
-      Customer Portal
+      {{ portalName() }}
     </span>
 
   </div>
@@ -28,18 +28,18 @@
 
   <div class="user-section">
 
-    <button class="logout-btn">
+    <button class="logout-btn" type="button" (click)="logout()">
       Logout
     </button>
 
     <div class="profile">
 
       <div class="avatar">
-        {{ userName.charAt(0) }}
+        {{ userName().charAt(0) }}
       </div>
 
       <span class="user-name">
-        {{ userName }}
+        {{ userName() }}
       </span>
 
     </div>
