@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 
 import { Invoice } from '../../../core/models/invoice';
@@ -9,43 +14,41 @@ import { InvoiceService } from '../../../core/services/invoice';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './invoice-list.html',
-  styleUrls: ['./invoice-list.css']
+  styleUrl: './invoice-list.css'
 })
-export class InvoiceList implements OnInit {
+export class InvoiceList {
 
-  invoices: Invoice[] = [];
+  private invoiceService =
+    inject(InvoiceService);
 
-  constructor(
-    private invoiceService: InvoiceService
-  ) {}
+  invoices = signal<Invoice[]>([]);
 
-  ngOnInit(): void {
-
-  console.log('Invoice List Loaded');
-
-  this.loadInvoices();
-
+  constructor() {
+    this.loadInvoices();
   }
 
   loadInvoices(): void {
 
-  this.invoiceService
-    .getAllInvoices()
-    .subscribe({
-      next: (data) => {
+    this.invoiceService
+      .getAllInvoices()
+      .subscribe({
+        next: (data) => {
 
-        console.log('Invoices from API:', data);
+          console.log(
+            'Invoices from API:',
+            data
+          );
 
-        this.invoices = data;
+          this.invoices.set(data);
+        },
+        error: (err) => {
 
-      },
-      error: (err) => {
-
-        console.error('Invoice API Error:', err);
-
-      }
-    });
+          console.error(
+            'Invoice API Error:',
+            err
+          );
+        }
+      });
 
   }
-
 }
