@@ -1,0 +1,61 @@
+<div class="container">
+
+  <h2>Service Catalog</h2>
+
+  <div class="filters">
+
+    <div>
+
+      <label>Category</label>
+
+      <br>
+
+      <select
+        [(ngModel)]="selectedCategory"
+        (change)="onCategoryChange()">
+
+        <option value="">
+          All Categories
+        </option>
+
+        <option value="Maintenance">
+          Maintenance
+        </option>
+
+        <option value="Repair">
+          Repair
+        </option>
+
+      </select>
+
+    </div>
+
+    <div>
+
+      <label>Search Service</label>
+
+      <br>
+
+      <input
+        type="text"
+        placeholder="Search Service"
+        [(ngModel)]="searchText"
+        (input)="onSearchChange()">
+
+    </div>
+
+  </div>
+
+  <div class="services-grid">
+
+    @for(service of filteredServices; track service.id){
+
+      <app-service-card
+        [service]="service">
+      </app-service-card>
+
+    }
+
+  </div>
+
+</div>

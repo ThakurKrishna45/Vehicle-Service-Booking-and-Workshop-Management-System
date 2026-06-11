@@ -1,0 +1,132 @@
+<app-navbar></app-navbar>
+
+<div class="tracking-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <button class="back-btn" (click)="goBack()">
+        <span class="back-icon">&#8592;</span> Back to Dashboard
+      </button>
+      <div>
+        <h1 class="page-title">Service Tracking</h1>
+        <p class="page-subtitle">Track your vehicle service progress in real time</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- All sections share one max-width container -->
+  <div class="tracking-content">
+
+    <!-- Top Row: Vehicle Details + Timeline -->
+    <div class="tracking-cards-row">
+
+      <!-- Left: Vehicle Details -->
+      <div class="card vehicle-card">
+        <div class="card-header">
+          <h2 class="card-title">Vehicle Details</h2>
+        </div>
+
+        <div class="vehicle-hero">
+          <div class="vehicle-icon-wrapper">
+            <img src="https://img.icons8.com/color/96/car.png" alt="Vehicle" class="vehicle-img">
+          </div>
+          <div class="vehicle-name-group">
+            <h3 class="vehicle-name">{{ vehicle }}</h3>
+            <p class="vehicle-service">{{ service }}</p>
+            <span class="vehicle-reg">{{ registrationNumber }}</span>
+          </div>
+        </div>
+
+        <div class="vehicle-details-list">
+          <div class="detail-row">
+            <span class="detail-label">Booking ID</span>
+            <span class="detail-value">{{ bookingId }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Service Type</span>
+            <span class="detail-value">{{ service }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Registration</span>
+            <span class="detail-value">{{ registrationNumber }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Current Status</span>
+            <span class="status-badge status-active">{{ currentStage }}</span>
+          </div>
+        </div>
+
+        <!-- Delivery Highlight -->
+        <div class="delivery-highlight">
+          <div class="delivery-item">
+            <span class="delivery-icon">📅</span>
+            <div class="delivery-text">
+              <span class="delivery-label">Estimated Delivery</span>
+              <span class="delivery-value">{{ estimatedDelivery }}</span>
+            </div>
+          </div>
+          <div class="delivery-divider"></div>
+          <div class="delivery-item">
+            <span class="delivery-icon">⏱</span>
+            <div class="delivery-text">
+              <span class="delivery-label">Time Remaining</span>
+              <span class="delivery-value days-remaining">{{ daysRemaining }} Days Left</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Service Timeline (reusable component) -->
+      <div class="card timeline-card">
+        <div class="card-header">
+          <h2 class="card-title">Service Timeline</h2>
+        </div>
+
+        <app-service-timeline [stages]="stages"></app-service-timeline>
+      </div>
+
+    </div>
+
+    <!-- Recent Service Updates — same width as the row above -->
+    <div class="card updates-card">
+      <div class="card-header">
+        <h2 class="card-title">Recent Service Updates</h2>
+        <span class="updates-count">{{ serviceUpdates.length }} updates</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="updates-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Update</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (update of serviceUpdates; track update.date + update.time) {
+              <tr>
+                <td class="col-date">{{ update.date }}</td>
+                <td class="col-time">{{ update.time }}</td>
+                <td class="col-update">{{ update.update }}</td>
+                <td class="col-status">
+                  <span class="update-badge badge-{{ update.type }}">
+                    @switch (update.type) {
+                      @case ('received')  { Received   }
+                      @case ('completed') { Completed  }
+                      @case ('progress')  { In Progress }
+                      @default            { Pending    }
+                    }
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

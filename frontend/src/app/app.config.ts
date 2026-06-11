@@ -8,17 +8,16 @@ import { dashboardReducer } from './store/admin-dashboard-filter/dashboard.reduc
 // import { DashboardEffects } from './store/admin-dashboard-filter/dashboard.effects';
 
 import { routes } from './app.routes';
+import { filterReducer } from './store/service-filter/service-filter.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideBrowserGlobalErrorListeners(),
     provideHttpClient(),
+    provideRouter(routes),
     provideStore({
+      filters: filterReducer,
       dashboard: dashboardReducer
-    }),
-
-    // provideEffects([
-    //   DashboardEffects
-    // ])
+    })
   ]
 };
