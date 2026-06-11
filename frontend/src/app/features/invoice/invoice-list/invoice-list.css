@@ -1,0 +1,48 @@
+.invoice-container{
+  padding:30px;
+  background:#f4f8ff;
+  min-height:100vh;
+}
+
+.page-header{
+  margin-bottom:25px;
+}
+
+.page-header h1{
+  color:#1e3a8a;
+}
+
+.page-header p{
+  color:#64748b;
+}
+
+.invoice-card{
+  background:white;
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:20px;
+  box-shadow:0 10px 20px rgba(0,0,0,.05);
+}
+
+.invoice-header{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:15px;
+}
+
+.invoice-header h3{
+  color:#2563eb;
+}
+
+.date{
+  color:#64748b;
+}
+
+.invoice-details p{
+  margin:8px 0;
+}
+
+.invoice-details h4{
+  margin-top:15px;
+  color:#16a34a;
+}

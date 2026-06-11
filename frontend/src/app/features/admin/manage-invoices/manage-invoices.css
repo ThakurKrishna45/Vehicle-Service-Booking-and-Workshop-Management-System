@@ -1,0 +1,29 @@
+.page-container{
+padding:30px;
+}
+
+table{
+width:100%;
+background:white;
+border-radius:20px;
+overflow:hidden;
+}
+
+th{
+background:#2563eb;
+color:white;
+padding:15px;
+}
+
+td{
+padding:15px;
+border-bottom:1px solid #eee;
+}
+
+.view-btn{
+background:#2563eb;
+color:white;
+border:none;
+padding:8px 15px;
+border-radius:8px;
+}
