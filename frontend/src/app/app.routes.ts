@@ -75,7 +75,7 @@ export const routes: Routes = [
   {
     path: 'invoices',
     component: InvoiceList,
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
 {
@@ -83,40 +83,39 @@ export const routes: Routes = [
   component: InvoiceDetails
 },
 
-  // Complaint
   {
     path: 'complaints/new',
     component: ComplaintForm,
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   {
     path: 'my-complaints',
     component: ComplaintList,
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
   {
     path: 'admin',
     component: AdminDashboard,
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   {
     path: 'admin/invoices',
     component: ManageInvoices,
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   {
     path: 'admin/complaints',
     component: ManageComplaints,
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   {
     path: 'admin/status',
     component: ManageStatus,
-    // canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   // Future Integration Routes
@@ -206,16 +205,3 @@ export const routes: Routes = [
 //     component: NotificationListComponent,
 //     canActivate: [authGuard]
 //   },
-
-  // =====================
-  // ADMIN MODULE
-  // =====================
-
-  
-  // Wildcard Route
-//   {
-//     path: '**',
-//     redirectTo: 'login'
-//   }
-
-// ];
