@@ -1,0 +1,29 @@
+<div class="page-container">
+
+  <h2>My Complaints</h2>
+
+  @for (complaint of complaints(); track complaint.id) {
+
+    <div class="complaint-card">
+
+      <div>
+        <h3>{{ complaint.subject }}</h3>
+
+        <p>
+          Booking #{{ complaint.bookingId }}
+        </p>
+      </div>
+
+      <span>
+        {{ complaint.status }}
+      </span>
+
+    </div>
+
+  } @empty {
+
+    <p>No complaints found.</p>
+
+  }
+
+</div>

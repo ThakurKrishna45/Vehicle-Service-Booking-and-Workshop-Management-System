@@ -6,7 +6,7 @@
   <div class="hero-section">
     <div class="hero-content">
 
-      <h1>Welcome Back, {{ user()?.name ?? 'Customer' }}</h1>
+      <h1>Welcome Back, {{ userName }}</h1>
       <p>Manage your vehicle services, bookings and tracking from one place.</p>
 
       <div class="quick-actions">
@@ -19,7 +19,7 @@
           </div>
         </div>
 
-        <div class="action-card" routerLink="/service-tracking" style="cursor: pointer;">
+        <div class="action-card" (click)="goToTracking()" style="cursor: pointer;">
           <div class="action-icon track-icon">TS</div>
           <div>
             <h3>Track Service</h3>
@@ -87,67 +87,45 @@
 
       <h2>Current Service Progress</h2>
 
-      <div class="service-vehicle">
-        <img src="https://img.icons8.com/color/96/car.png" alt="Vehicle" class="vehicle-image">
-        <div class="vehicle-info">
-          <h3>Honda City</h3>
-          <p>Premium Service</p>
-          <span class="vehicle-number">KA01AB1234</span>
-        </div>
-      </div>
+      @if (activeProgress) {
 
-      <div class="timeline">
-
-        <div class="timeline-item completed">
-          <div class="timeline-marker"></div>
-          <div class="timeline-content">
-            <span>Vehicle Received</span>
-            <span class="timeline-date">10 Jun, 09:30 AM</span>
+        <div class="service-vehicle">
+          <img src="https://img.icons8.com/color/96/car.png" alt="Vehicle" class="vehicle-image">
+          <div class="vehicle-info">
+            <h3>{{ activeProgress.vehicleName }}</h3>
+            <p>{{ activeProgress.serviceName }}</p>
+            <span class="vehicle-number">{{ activeProgress.registrationNumber }}</span>
           </div>
         </div>
 
-        <div class="timeline-item completed">
-          <div class="timeline-marker"></div>
-          <div class="timeline-content">
-            <span>Inspection Complete</span>
-            <span class="timeline-date">10 Jun, 11:00 AM</span>
+        <div class="timeline">
+          @for (stage of timelineStages; track stage.label) {
+            <div class="timeline-item {{ stage.status }}">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <span>{{ stage.label }}</span>
+                @if (stage.timestamp) {
+                  <span class="timeline-date">{{ stage.timestamp }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="delivery-box">
+          <div>
+            <small>Estimated Delivery</small>
+            <h4>{{ activeProgress.estimatedDelivery }}</h4>
+          </div>
+          <div>
+            <small>Status</small>
+            <h4>{{ activeProgress.daysRemaining }} Days Left</h4>
           </div>
         </div>
 
-        <div class="timeline-item active">
-          <div class="timeline-marker"></div>
-          <div class="timeline-content">
-            <span>Repair In Progress</span>
-            <span class="timeline-date">11 Jun, 02:00 PM</span>
-          </div>
-        </div>
-
-        <div class="timeline-item pending">
-          <div class="timeline-marker"></div>
-          <div class="timeline-content">
-            <span>Quality Check</span>
-          </div>
-        </div>
-
-        <div class="timeline-item pending">
-          <div class="timeline-marker"></div>
-          <div class="timeline-content">
-            <span>Ready For Delivery</span>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="delivery-box">
-        <div>
-          <small>Estimated Delivery</small>
-          <h4>15 June 2026</h4>
-        </div>
-        <div>
-          <small>Status</small>
-          <h4>2 Days Left</h4>
-        </div>
-      </div>
+      } @else {
+        <p>No active service in progress.</p>
+      }
 
     </div>
 
@@ -155,40 +133,46 @@
 
       <h2>Upcoming Appointment</h2>
 
-      <div class="service-vehicle">
-        <img src="https://img.icons8.com/color/96/car.png" alt="Vehicle" class="vehicle-image">
-        <div class="vehicle-info">
-          <h3>Hyundai i20</h3>
-          <p>AC Service</p>
-          <span class="vehicle-number">KA02CD5678</span>
-        </div>
-      </div>
+      @if (upcomingAppointment) {
 
-      <div class="appointment-details">
-
-        <div class="detail-row">
-          <span>Date</span>
-          <strong>15 June 2026</strong>
+        <div class="service-vehicle">
+          <img src="https://img.icons8.com/color/96/car.png" alt="Vehicle" class="vehicle-image">
+          <div class="vehicle-info">
+            <h3>{{ upcomingAppointment.vehicleName }}</h3>
+            <p>{{ upcomingAppointment.serviceName }}</p>
+            <span class="vehicle-number">{{ upcomingAppointment.registrationNumber }}</span>
+          </div>
         </div>
 
-        <div class="detail-row">
-          <span>Time</span>
-          <strong>10:00 AM</strong>
+        <div class="appointment-details">
+
+          <div class="detail-row">
+            <span>Date</span>
+            <strong>{{ upcomingAppointment.bookingDate }}</strong>
+          </div>
+
+          <div class="detail-row">
+            <span>Time</span>
+            <strong>{{ upcomingAppointment.slot }}</strong>
+          </div>
+
+          <div class="detail-row">
+            <span>Workshop</span>
+            <strong>{{ upcomingAppointment.workshopName }}</strong>
+          </div>
+
+          <div class="detail-row">
+            <span>Status</span>
+            <span class="status-badge">{{ upcomingAppointment.status }}</span>
+          </div>
+
         </div>
 
-        <div class="detail-row">
-          <span>Workshop</span>
-          <strong>Sprint Auto Care</strong>
-        </div>
+        <button class="reschedule-btn">Reschedule</button>
 
-        <div class="detail-row">
-          <span>Status</span>
-          <span class="status-badge">Confirmed</span>
-        </div>
-
-      </div>
-
-      <button class="reschedule-btn">Reschedule</button>
+      } @else {
+        <p>No upcoming appointments.</p>
+      }
 
     </div>
 
