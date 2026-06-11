@@ -1,10 +1,38 @@
-form{
- width:400px;
- margin:auto;
+.booking-form{
+
+  max-width:700px;
+
+  margin:30px auto;
+
+  background:white;
+
+  padding:30px;
+
+  border-radius:12px;
+
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.08);
+
 }
 
-input,
-textarea{
- width:100%;
- padding:10px;
+.booking-form input,
+.booking-form select,
+.booking-form textarea{
+
+  width:100%;
+
+  padding:10px;
+
+  border:1px solid #d1d5db;
+
+  border-radius:8px;
+
+  margin-top:5px;
+
+}
+
+.booking-form div{
+
+  margin-bottom:15px;
+
 }

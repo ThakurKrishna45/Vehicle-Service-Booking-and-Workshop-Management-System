@@ -1,46 +1,113 @@
 <h2>Create Booking</h2>
+<div class="booking-form">
 
 <form
   [formGroup]="bookingForm"
   (ngSubmit)="createBooking()">
 
-  <input
-    type="number"
-    placeholder="Vehicle Id"
-    formControlName="vehicleId">
+  <div>
 
-  <br><br>
+    <label>Vehicle Id</label>
 
-  <input
-    type="number"
-    placeholder="Service Id"
-    formControlName="serviceId">
+    <br>
 
-  <br><br>
+    <input
+      type="number"
+      formControlName="vehicleId">
 
-  <input
-    type="date"
-    formControlName="bookingDate">
+  </div>
 
-  <br><br>
+  <br>
 
-  <input
-    placeholder="Slot"
-    formControlName="slot">
+  <div>
 
-  <br><br>
+    <label>Service Id</label>
 
-  <textarea
-    placeholder="Issue Description"
-    formControlName="issueDescription">
-  </textarea>
+    <br>
 
-  <br><br>
+    <input
+      type="number"
+      formControlName="serviceId">
 
-  <button type="submit">
+  </div>
+
+  <br>
+
+  <div>
+
+    <label>Booking Date</label>
+
+    <br>
+
+    <input
+  type="date"
+  formControlName="bookingDate">
+
+@if(
+ bookingForm.get('bookingDate')
+ ?.errors?.['invalidDate']
+){
+
+  <p class="error">
+    Past dates are not allowed
+  </p>
+
+}
+
+  </div>
+
+  <br>
+
+  <div>
+
+    <label>Select Slot</label>
+
+    <br>
+
+    <select formControlName="slot">
+
+      <option value="">
+        Select Slot
+      </option>
+
+      @for(slot of slots(); track slot.id){
+
+        <option [value]="slot.time">
+
+          {{ slot.date }} - {{ slot.time }}
+
+        </option>
+
+      }
+
+    </select>
+
+  </div>
+
+  <br>
+
+  <div>
+
+    <label>Issue Description</label>
+
+    <br>
+
+    <textarea
+      rows="4"
+      formControlName="issueDescription">
+    </textarea>
+
+  </div>
+
+  <br>
+
+  <button
+    type="submit"
+    [disabled]="bookingForm.invalid">
 
     Book Service
 
   </button>
 
 </form>
+</div>

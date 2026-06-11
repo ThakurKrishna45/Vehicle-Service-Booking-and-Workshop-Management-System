@@ -1,0 +1,27 @@
+<div class="service-card">
+
+  <h3>{{service.name}}</h3>
+
+  <p>
+    Category:
+    {{service.category}}
+  </p>
+
+  <p>
+    Duration:
+    {{service.duration}}
+  </p>
+
+  <p>
+    Price:
+    ₹{{service.price}}
+  </p>
+
+  <button
+    [routerLink]="['/services',service.id]">
+
+    View Details
+
+  </button>
+
+</div>

@@ -2,37 +2,59 @@
 
   <h2>Service Catalog</h2>
 
-  <input
-    type="text"
-    placeholder="Search Service"
-    [(ngModel)]="searchText"
-    (input)="search()">
+  <div class="filters">
 
-  <div class="service-card"
-       *ngFor="let service of filteredServices">
+    <div>
 
-    <h3>{{service.name}}</h3>
+      <label>Category</label>
 
-    <p>
-      Category :
-      {{service.category}}
-    </p>
+      <br>
 
-    <p>
-      Duration :
-      {{service.duration}}
-    </p>
+      <select
+        [(ngModel)]="selectedCategory"
+        (change)="onCategoryChange()">
 
-    <p>
-      ₹ {{service.price}}
-    </p>
+        <option value="">
+          All Categories
+        </option>
 
-    <a
-      [routerLink]="['/services',service.id]">
+        <option value="Maintenance">
+          Maintenance
+        </option>
 
-      View Details
+        <option value="Repair">
+          Repair
+        </option>
 
-    </a>
+      </select>
+
+    </div>
+
+    <div>
+
+      <label>Search Service</label>
+
+      <br>
+
+      <input
+        type="text"
+        placeholder="Search Service"
+        [(ngModel)]="searchText"
+        (input)="onSearchChange()">
+
+    </div>
+
+  </div>
+
+  <div class="services-grid">
+
+    @for(service of filteredServices; track service.id){
+
+      <app-service-card
+        [service]="service">
+      </app-service-card>
+
+    }
 
   </div>
 

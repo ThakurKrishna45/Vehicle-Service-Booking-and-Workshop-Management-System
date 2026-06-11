@@ -1,25 +1,20 @@
-import { Component, OnInit, inject } from '@angular/core';
-
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BookingService } from '../../../core/services/booking';
 
-import { Booking }
-from '../../../core/models/booking';
-
 @Component({
-  selector:'app-booking-history',
-  imports:[CommonModule],
-  templateUrl:'./booking-history.html',
-  styleUrl:'./booking-history.css'
+  selector: 'app-booking-history',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './booking-history.html',
+  styleUrl: './booking-history.css'
 })
-export class BookingHistoryComponent
-implements OnInit{
+export class BookingHistoryComponent implements OnInit {
 
-  private bookingApi=
-  inject(BookingService);
+  private bookingApi = inject(BookingService);
 
-  bookings:Booking[]=[];
+  bookings = signal<any[]>([]);
 
   ngOnInit(): void {
 
@@ -27,7 +22,9 @@ implements OnInit{
       .getBookings()
       .subscribe(data => {
 
-        this.bookings=data;
+        console.log('Bookings:', data);
+
+        this.bookings.set(data);
 
       });
 

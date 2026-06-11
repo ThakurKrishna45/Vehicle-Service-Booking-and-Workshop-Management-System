@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
-
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import {
+  futureDateValidator
+} from '../../../shared/validators/future-date.validator';
 import {
   FormBuilder,
   FormGroup,
@@ -10,53 +11,83 @@ import {
 } from '@angular/forms';
 
 import { BookingService } from '../../../core/services/booking';
+import { BookingSlotService } from '../../../core/services/booking-slot';
 
 @Component({
-  selector:'app-create-booking',
-  imports:[
+  selector: 'app-create-booking',
+  standalone: true,
+  imports: [
     CommonModule,
     ReactiveFormsModule
   ],
-  templateUrl:'./create-booking.html',
-  styleUrl:'./create-booking.css'
+  templateUrl: './create-booking.html',
+  styleUrls: ['./create-booking.css']
 })
-export class CreateBookingComponent
-implements OnInit{
+export class CreateBookingComponent implements OnInit {
 
-  private fb=inject(FormBuilder);
+  private fb = inject(FormBuilder);
 
-  private bookingApi=
-  inject(BookingService);
+  private bookingApi = inject(BookingService);
 
-  bookingForm!:FormGroup;
+  private slotApi = inject(BookingSlotService);
+
+  bookingForm!: FormGroup;
+
+  slots = signal<any[]>([]);
 
   ngOnInit(): void {
 
-    this.bookingForm=this.fb.group({
+    this.bookingForm = this.fb.group({
 
-      vehicleId:['',Validators.required],
+      vehicleId: ['', Validators.required],
 
-      serviceId:['',Validators.required],
+      serviceId: ['', Validators.required],
 
-      bookingDate:['',Validators.required],
+      bookingDate:[
+  '',
+  [
+    Validators.required,
+    futureDateValidator
+  ]
+],
 
-      slot:['',Validators.required],
+      slot: ['', Validators.required],
 
-      issueDescription:['']
+      issueDescription: ['']
 
     });
 
+    this.loadSlots();
+
   }
 
-  createBooking(){
+  loadSlots() {
 
-    const booking={
+    this.slotApi
+      .getAvailableSlots()
+      .subscribe(data => {
+
+        console.log('Slots:', data);
+
+        this.slots.set(data);
+
+      });
+
+  }
+
+  createBooking() {
+
+    if (this.bookingForm.invalid) {
+      return;
+    }
+
+    const booking = {
 
       ...this.bookingForm.value,
 
-      userId:1,
+      userId: 1,
 
-      status:'Requested'
+      status: 'Requested'
 
     };
 
@@ -64,7 +95,7 @@ implements OnInit{
       .createBooking(booking)
       .subscribe(() => {
 
-        alert('Booking Created');
+        alert('Booking Created Successfully');
 
         this.bookingForm.reset();
 

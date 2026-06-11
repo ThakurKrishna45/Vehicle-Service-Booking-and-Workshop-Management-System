@@ -1,29 +1,43 @@
 <h2>Booking History</h2>
 
-<table>
+@if(bookings().length === 0){
 
-  <tr>
+  <p>No bookings found</p>
 
-    <th>Booking Id</th>
+}
+@else {
 
-    <th>Date</th>
+  <table>
 
-    <th>Slot</th>
+    <thead>
+      <tr>
+        <th>Booking Id</th>
+        <th>Date</th>
+        <th>Slot</th>
+        <th>Status</th>
+      </tr>
+    </thead>
 
-    <th>Status</th>
+    <tbody>
 
-  </tr>
+      @for(booking of bookings(); track booking.id){
 
-  <tr *ngFor="let booking of bookings">
+        <tr>
 
-    <td>{{booking.id}}</td>
+          <td>{{ booking.id }}</td>
 
-    <td>{{booking.bookingDate}}</td>
+          <td>{{ booking.bookingDate }}</td>
 
-    <td>{{booking.slot}}</td>
+          <td>{{ booking.slot }}</td>
 
-    <td>{{booking.status}}</td>
+          <td>{{ booking.status }}</td>
 
-  </tr>
+        </tr>
 
-</table>
+      }
+
+    </tbody>
+
+  </table>
+
+}

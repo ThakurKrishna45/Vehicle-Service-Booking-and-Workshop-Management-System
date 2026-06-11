@@ -1,39 +1,37 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { ServicePackageService } from '../../../core/services/service-package';
 
-import { ServicePackage } from '../../../core/models/service-package';
-
 @Component({
   selector: 'app-service-details',
-  imports:[
+  imports: [
     CommonModule,
     RouterModule
   ],
-  templateUrl:'./service-details.html',
-  styleUrl:'./service-details.css'
+  templateUrl: './service-details.html',
+  styleUrl: './service-details.css'
 })
 export class ServiceDetailsComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
-
   private serviceApi = inject(ServicePackageService);
 
-  service!:ServicePackage;
+  service = signal<any | null>(null);
 
   ngOnInit(): void {
 
-    const id = Number(
-      this.route.snapshot.paramMap.get('id')
-    );
+    const id = this.route.snapshot.paramMap.get('id');
 
     this.serviceApi
-      .getServiceById(id)
+      .getServiceById(Number(id))
       .subscribe(data => {
-        this.service = data;
+
+        console.log('Service:', data);
+
+        this.service.set(data);
+
       });
 
   }

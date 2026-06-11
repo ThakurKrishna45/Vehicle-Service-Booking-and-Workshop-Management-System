@@ -1,29 +1,38 @@
-<div *ngIf="service">
+@if(service()) {
 
-  <h2>{{service.name}}</h2>
+  <div class="details-card">
 
-  <p>
-    Category :
-    {{service.category}}
-  </p>
+    <h2>{{ service()?.name }}</h2>
 
-  <p>
-    Description :
-    {{service.description}}
-  </p>
+    <p>
+      Category:
+      {{ service()?.category }}
+    </p>
 
-  <p>
-    Duration :
-    {{service.duration}}
-  </p>
+    <p>
+      Description:
+      {{ service()?.description }}
+    </p>
 
-  <p>
-    Price :
-    ₹ {{service.price}}
-  </p>
+    <p>
+      Duration:
+      {{ service()?.duration }}
+    </p>
 
-  <a routerLink="/booking">
-    Book Service
-  </a>
+    <p>
+      Price:
+      ₹{{ service()?.price }}
+    </p>
 
-</div>
+    <button routerLink="/booking">
+      Book Service
+    </button>
+
+  </div>
+
+}
+@else {
+
+  <p>Loading Service...</p>
+
+}
