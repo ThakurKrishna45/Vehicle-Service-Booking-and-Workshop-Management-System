@@ -1,0 +1,125 @@
+/* ─────────────────────────────────────────────
+   Service Timeline Component
+   Used in: Service Tracking page (right card)
+   Matches: Dashboard "Current Service Progress"
+   ───────────────────────────────────────────── */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Each Row ── */
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+/* ── Dot + vertical line column ── */
+.timeline-connector-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.timeline-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.timeline-line {
+  width: 2px;
+  min-height: 28px;
+  flex: 1;
+  margin: 2px 0;
+  background: #e5e7eb;
+}
+
+/* ── Completed ── */
+.timeline-completed .timeline-dot {
+  background: #22c55e;
+  color: #ffffff;
+}
+
+.timeline-completed .timeline-line {
+  background: #22c55e;
+}
+
+.timeline-completed .timeline-label {
+  color: #15803d;
+  font-weight: 600;
+}
+
+/* ── Active ── */
+.timeline-active .timeline-dot {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px #dbeafe;
+}
+
+.timeline-active .timeline-label {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+/* ── Pending ── */
+.timeline-pending .timeline-dot {
+  background: #f3f4f6;
+  border: 2px solid #d1d5db;
+}
+
+.timeline-pending .timeline-label {
+  color: #9ca3af;
+}
+
+/* ── Dot inner elements ── */
+.dot-check {
+  line-height: 1;
+}
+
+.dot-inner {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+/* ── Content column ── */
+.timeline-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  padding: 2px 0 28px 0;
+}
+
+.timeline-item:last-child .timeline-content {
+  padding-bottom: 0;
+}
+
+.timeline-label {
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+}
+
+.timeline-timestamp {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.pending-text {
+  color: #d1d5db;
+  font-style: italic;
+}

@@ -1,0 +1,49 @@
+<nav class="navbar">
+
+  <div class="logo-section">
+
+    <div class="logo-circle">
+      CP
+    </div>
+
+    <span class="portal-name">
+      Customer Portal
+    </span>
+
+  </div>
+
+  <div class="nav-links">
+
+    <a routerLink="/dashboard" routerLinkActive="active-link">Profile</a>
+
+    <a routerLink="/dashboard" routerLinkActive="active-link">Vehicles</a>
+
+    <a routerLink="/dashboard" routerLinkActive="active-link">Services</a>
+
+    <a routerLink="/service-tracking" routerLinkActive="active-link">Track Service</a>
+
+    <a routerLink="/dashboard" routerLinkActive="active-link">Payments</a>
+
+  </div>
+
+  <div class="user-section">
+
+    <button class="logout-btn">
+      Logout
+    </button>
+
+    <div class="profile">
+
+      <div class="avatar">
+        {{ userName.charAt(0) }}
+      </div>
+
+      <span class="user-name">
+        {{ userName }}
+      </span>
+
+    </div>
+
+  </div>
+
+</nav>
