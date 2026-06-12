@@ -245,3 +245,6 @@ grid-template-columns:1fr;
 .logout-btn:hover {
   background: #e2e8f0;
 }
+.profile-box {
+  cursor: pointer;
+}

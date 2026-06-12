@@ -14,9 +14,13 @@
  <button class="logout-btn" type="button" (click)="logout()">
       Logout
     </button>
-    <div class="profile-box">
-      A
-    </div>
+  <div
+  class="profile-box"
+  routerLink="/profile">
+
+  A
+
+</div>
 
   </div>
 
@@ -52,9 +56,9 @@
 
 <div class="action-grid">
 
-  <button routerLink="/admin/users" class="action-card">
+  <!-- <button routerLink="/admin/users" class="action-card">
     👤 User Management
-  </button>
+  </button> -->
 
   <button routerLink="/vehicles" class="action-card">
     🚗 Vehicle Management

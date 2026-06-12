@@ -50,12 +50,18 @@
   <!-- Summary Cards -->
   <div class="cards-container">
 
-    <app-dashboard-card
-      [title]="'Total Bookings'"
-      [count]="totalBookings"
-      [icon]="'📋'"
-      [subtitle]="'All Appointments'">
-    </app-dashboard-card>
+  <div
+  class="clickable-card"
+  (click)="goToBookings()">
+
+  <app-dashboard-card
+    [title]="'Total Bookings'"
+    [count]="totalBookings"
+    [icon]="'📋'"
+    [subtitle]="'All Appointments'">
+  </app-dashboard-card>
+
+</div>
 
     <app-dashboard-card
       [title]="'Completed Services'"

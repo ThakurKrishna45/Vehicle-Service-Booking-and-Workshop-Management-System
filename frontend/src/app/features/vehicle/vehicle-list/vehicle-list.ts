@@ -5,7 +5,6 @@ import { finalize } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { VehicleService } from '../../../core/services/vehicle.service';
 import { Vehicle } from '../../../core/models/vehicle';
-
 @Component({
   selector: 'app-vehicle-list',
   standalone: true,
@@ -23,6 +22,21 @@ export class VehicleList implements OnInit {
   readonly errorMessage = signal('');
   readonly deletingId = signal<number | string | null>(null);
 
+goToDashboard(): void {
+
+  const user = this.auth.currentUser();
+
+  if (user?.role === 'admin') {
+
+    this.router.navigate(['/admin']);
+
+  } else {
+
+    this.router.navigate(['/dashboard']);
+
+  }
+
+}
   ngOnInit(): void {
     this.loadVehicles();
   }

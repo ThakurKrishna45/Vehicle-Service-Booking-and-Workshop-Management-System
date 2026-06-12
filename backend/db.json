@@ -35,39 +35,19 @@
   ],
   "vehicles": [
     {
-      "id": "1",
-      "userId": "1",
-      "vehicleNumber": "MH12AB1234",
+      "id": 1,
+      "userId": 2,
+      "vehicleNumber": "UP32AB1234",
       "vehicleType": "Car",
       "brand": "Honda",
       "model": "City",
       "year": 2022,
       "odometer": 15000
-    },
-    {
-      "id": "2",
-      "userId": "1",
-      "vehicleNumber": "DL10CD5678",
-      "vehicleType": "SUV",
-      "brand": "Toyota",
-      "model": "Fortuner",
-      "year": 2021,
-      "odometer": 28000
-    },
-    {
-      "id": "3",
-      "userId": "2",
-      "vehicleNumber": "KA03EF9012",
-      "vehicleType": "Car",
-      "brand": "Maruti",
-      "model": "Swift",
-      "year": 2020,
-      "odometer": 45000
     }
   ],
   "servicePackages": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Basic Service",
       "category": "Maintenance",
       "description": "General vehicle inspection and oil change",
@@ -75,182 +55,297 @@
       "price": 1500
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Premium Service",
       "category": "Maintenance",
-      "description": "Complete service package with full checkup",
+      "description": "Complete service package",
       "duration": "5 Hours",
       "price": 4500
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "AC Service",
       "category": "Repair",
-      "description": "Air conditioning maintenance and gas refill",
+      "description": "Air conditioning maintenance",
       "duration": "3 Hours",
       "price": 2000
     }
   ],
   "bookings": [
     {
-      "id": "1",
-      "userId": "1",
-      "vehicleId": "1",
-      "serviceId": "1",
+      "id": 1,
+      "userId": 2,
+      "vehicleId": 1,
+      "serviceId": 1,
       "bookingDate": "2026-06-10",
       "slot": "10:00 AM",
       "issueDescription": "Engine noise",
-      "status": "Inspection"
-    },
-    {
-      "id": "2",
-      "userId": "1",
-      "vehicleId": "2",
-      "serviceId": "2",
-      "bookingDate": "2026-06-15",
-      "slot": "11:00 AM",
-      "issueDescription": "Full checkup before long trip",
       "status": "Requested"
     },
     {
-      "id": "3",
-      "userId": "1",
-      "vehicleId": "1",
-      "serviceId": "3",
-      "bookingDate": "2026-05-20",
-      "slot": "02:00 PM",
-      "issueDescription": "AC not cooling",
-      "status": "Completed"
+      "vehicleId": 1,
+      "serviceId": 1,
+      "bookingDate": "2026-06-11",
+      "slot": "1",
+      "issueDescription": "1",
+      "userId": 1,
+      "status": "Requested",
+      "id": "2"
     },
     {
-      "id": "4",
-      "userId": "1",
-      "vehicleId": "1",
-      "serviceId": "1",
-      "bookingDate": "2026-05-10",
-      "slot": "09:00 AM",
-      "issueDescription": "Routine service",
-      "status": "Completed"
+      "vehicleId": 1,
+      "serviceId": 1,
+      "bookingDate": "2026-06-11",
+      "slot": "1",
+      "issueDescription": "1",
+      "userId": 1,
+      "status": "Requested",
+      "id": "3"
     },
     {
-      "id": "5",
-      "userId": "2",
-      "vehicleId": "3",
-      "serviceId": "2",
+      "vehicleId": 1,
+      "serviceId": 1,
+      "bookingDate": "2026-06-11",
+      "slot": "12:00 PM",
+      "issueDescription": "",
+      "userId": 1,
+      "status": "Requested",
+      "id": "4"
+    },
+    {
+      "vehicleId": 2,
+      "serviceId": 2,
       "bookingDate": "2026-06-12",
       "slot": "10:00 AM",
-      "issueDescription": "Brake check",
-      "status": "Repair"
-    }
-  ],
-  "serviceTracking": [
-    {
-      "id": "1",
-      "bookingId": "1",
-      "userId": "1",
-      "vehicleId": "1",
-      "currentStage": "Inspection",
-      "technicianId": "1",
-      "estimatedDelivery": "2026-06-16",
-      "daysRemaining": 4,
-      "workshopName": "Sprint Auto Care"
+      "issueDescription": "ds",
+      "userId": 2,
+      "status": "Requested",
+      "id": "5"
     },
     {
-      "id": "2",
-      "bookingId": "5",
-      "userId": "2",
-      "vehicleId": "3",
-      "currentStage": "Repair",
-      "technicianId": "1",
-      "estimatedDelivery": "2026-06-15",
-      "daysRemaining": 3,
-      "workshopName": "Sprint Auto Care"
-    }
+  "id": "6",
+  "userId": 2,
+  "vehicleId": 1,
+  "serviceId": 2,
+  "bookingDate": "2026-06-13",
+  "slot": "09:00 AM",
+  "issueDescription": "Brake check",
+  "status": "Confirmed"
+},
+{
+  "id": "7",
+  "userId": 3,
+  "vehicleId": 2,
+  "serviceId": 1,
+  "bookingDate": "2026-06-14",
+  "slot": "11:00 AM",
+  "issueDescription": "Oil leakage",
+  "status": "Inspection"
+},
+{
+  "id": "8",
+  "userId": 4,
+  "vehicleId": 3,
+  "serviceId": 3,
+  "bookingDate": "2026-06-15",
+  "slot": "02:00 PM",
+  "issueDescription": "AC not cooling",
+  "status": "Repair"
+},
+{
+  "id": "9",
+  "userId": 1,
+  "vehicleId": 1,
+  "serviceId": 2,
+  "bookingDate": "2026-06-16",
+  "slot": "10:00 AM",
+  "issueDescription": "Wheel alignment",
+  "status": "Completed"
+},
+{
+  "id": "10",
+  "userId": 2,
+  "vehicleId": 2,
+  "serviceId": 1,
+  "bookingDate": "2026-06-17",
+  "slot": "12:00 PM",
+  "issueDescription": "Battery issue",
+  "status": "Requested"
+},
+{
+  "id": "11",
+  "userId": 3,
+  "vehicleId": 3,
+  "serviceId": 2,
+  "bookingDate": "2026-06-18",
+  "slot": "03:00 PM",
+  "issueDescription": "Engine overheating",
+  "status": "Confirmed"
+},
+{
+  "id": "12",
+  "userId": 4,
+  "vehicleId": 1,
+  "serviceId": 3,
+  "bookingDate": "2026-06-19",
+  "slot": "09:00 AM",
+  "issueDescription": "AC gas refill",
+  "status": "Repair"
+},
+{
+  "id": "13",
+  "userId": 1,
+  "vehicleId": 2,
+  "serviceId": 1,
+  "bookingDate": "2026-06-20",
+  "slot": "11:00 AM",
+  "issueDescription": "General servicing",
+  "status": "Completed"
+},
+{
+  "id": "14",
+  "userId": 2,
+  "vehicleId": 3,
+  "serviceId": 2,
+  "bookingDate": "2026-06-21",
+  "slot": "01:00 PM",
+  "issueDescription": "Brake pads replacement",
+  "status": "Inspection"
+},
+{
+  "id": "15",
+  "userId": 3,
+  "vehicleId": 1,
+  "serviceId": 3,
+  "bookingDate": "2026-06-22",
+  "slot": "10:00 AM",
+  "issueDescription": "AC compressor issue",
+  "status": "Requested"
+},
+{
+  "id": "16",
+  "userId": 4,
+  "vehicleId": 2,
+  "serviceId": 1,
+  "bookingDate": "2026-06-23",
+  "slot": "12:00 PM",
+  "issueDescription": "Oil change",
+  "status": "Completed"
+},
+{
+  "id": "17",
+  "userId": 1,
+  "vehicleId": 3,
+  "serviceId": 2,
+  "bookingDate": "2026-06-24",
+  "slot": "02:00 PM",
+  "issueDescription": "Steering vibration",
+  "status": "Repair"
+},
+{
+  "id": "18",
+  "userId": 2,
+  "vehicleId": 1,
+  "serviceId": 1,
+  "bookingDate": "2026-06-25",
+  "slot": "09:00 AM",
+  "issueDescription": "Suspension noise",
+  "status": "Confirmed"
+},
+{
+  "id": "19",
+  "userId": 3,
+  "vehicleId": 2,
+  "serviceId": 3,
+  "bookingDate": "2026-06-26",
+  "slot": "11:00 AM",
+  "issueDescription": "Cooling issue",
+  "status": "Inspection"
+},
+{
+  "id": "20",
+  "userId": 4,
+  "vehicleId": 3,
+  "serviceId": 2,
+  "bookingDate": "2026-06-27",
+  "slot": "03:00 PM",
+  "issueDescription": "Engine tuning",
+  "status": "Completed"
+}
   ],
-  "serviceTimelines": [
-    {
-      "id": "1",
-      "bookingId": "1",
-      "stage": "Inspection",
-      "updatedAt": "2026-06-10T10:00:00"
-    }
-  ],
+  "serviceTracking": [
+  {
+    "id": 1,
+    "bookingId": 1,
+    "userId": 2,
+    "vehicleId": 1,
+    "currentStage": "Inspection",
+    "estimatedDelivery": "2026-06-15",
+    "daysRemaining": 3,
+    "workshopName": "Sprint Auto Care"
+  }
+],
   "invoices": [
     {
       "id": "1",
-      "bookingId": "3",
-      "serviceCharge": 2000,
+      "bookingId": 1,
+      "serviceCharge": 1500,
       "partsCharge": 500,
       "tax": 360,
-      "totalAmount": 2860,
-      "invoiceDate": "2026-05-20"
-    },
-    {
-      "id": "2",
-      "bookingId": "4",
-      "serviceCharge": 1500,
-      "partsCharge": 200,
-      "tax": 252,
-      "totalAmount": 1952,
-      "invoiceDate": "2026-05-10"
+      "totalAmount": 2360,
+      "invoiceDate": "2026-06-10"
     }
   ],
   "complaints": [
     {
       "id": "1",
-      "bookingId": "3",
-      "customerId": "1",
-      "subject": "AC still not cold",
-      "description": "AC issue recurred within a week of service",
+      "bookingId": 1,
+      "customerId": 2,
+      "subject": "Engine Issue",
+      "description": "Noise still exists after service",
       "status": "Open"
     }
   ],
   "notifications": [
     {
       "id": "1",
-      "userId": "1",
-      "message": "Your booking #1 is now under Inspection.",
-      "type": "TRACKING",
-      "isRead": false,
-      "createdAt": "2026-06-10T09:00:00"
-    },
-    {
-      "id": "2",
-      "userId": "1",
-      "message": "Booking #2 confirmed for June 15.",
+      "userId": 2,
+      "message": "Booking Confirmed",
       "type": "BOOKING",
       "isRead": false,
-      "createdAt": "2026-06-11T10:00:00"
+      "createdAt": "2026-06-10T09:00:00"
     }
   ],
   "bookingSlots": [
-    { "id": "1", "date": "2026-06-15", "time": "09:00 AM", "available": true },
-    { "id": "2", "date": "2026-06-15", "time": "11:00 AM", "available": false },
-    { "id": "3", "date": "2026-06-16", "time": "10:00 AM", "available": true },
-    { "id": "4", "date": "2026-06-16", "time": "12:00 PM", "available": true }
+    {
+      "id": "1",
+      "date": "2026-06-10",
+      "time": "10:00 AM",
+      "available": true
+    },
+    {
+      "id": "2",
+      "date": "2026-06-10",
+      "time": "12:00 PM",
+      "available": true
+    }
   ],
   "technicians": [
-    { "id": "1", "name": "Rajesh Kumar",  "specialization": "Engine Repair",    "availability": "Available" },
-    { "id": "2", "name": "Sunil Verma",   "specialization": "AC & Electrical",  "availability": "Busy"      },
-    { "id": "3", "name": "Amit Sharma",   "specialization": "Transmission",     "availability": "Available" },
-    { "id": "4", "name": "Deepak Nair",   "specialization": "Body & Paint",     "availability": "Available" }
+    {
+      "id": "1",
+      "name": "Rajesh Kumar",
+      "specialization": "Engine Repair",
+      "availability": "Available"
+    }
   ],
   "serviceHistories": [
     {
       "id": "1",
-      "vehicleId": "1",
-      "bookingId": "3",
-      "serviceDate": "2026-05-20",
-      "serviceName": "AC Service",
-      "remarks": "Gas refilled, filter replaced"
-    },
-    {
-      "id": "2",
-      "vehicleId": "1",
-      "bookingId": "4",
-      "serviceDate": "2026-05-10",
+      "vehicleId": 1,
+      "bookingId": 1,
+      "serviceDate": "2026-05-01",
       "serviceName": "Basic Service",
-      "remarks": "Oil changed, filters cleaned"
+      "remarks": "Completed Successfully"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

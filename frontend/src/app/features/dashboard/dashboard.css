@@ -253,7 +253,9 @@ color: #111827;
 
 margin-bottom: 24px;
 }
-
+.clickable-card {
+  cursor: pointer;
+}
 table {
 width: 100%;
 

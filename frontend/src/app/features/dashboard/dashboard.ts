@@ -38,33 +38,72 @@ export class Dashboard implements OnInit {
 
   isLoading    = true;
   errorMessage = '';
+goToBookings(): void {
+  this.router.navigate(['/bookings']);
+}
+ ngOnInit(): void {
 
-  ngOnInit(): void {
-    // Auth service stores session under 'vehicle-service-session' as
-    // { id, name, email, role }. Read id from the signal — the 'userId'
-    // key in localStorage was never written so getItem('userId') is always null.
-    const currentUser = this.auth.currentUser();
-    const userId = currentUser?.id != null ? String(currentUser.id) : null;
+  const currentUser =
+    this.auth.currentUser();
 
-    this.dashboardService.getDashboardPageData(userId).subscribe({
+  const userId =
+    currentUser?.role === 'admin'
+      ? null
+      : String(currentUser?.id);
+
+  this.dashboardService
+    .getDashboardPageData(userId)
+    .subscribe({
       next: (data: DashboardPageData) => {
-        this.userName            = data.userName;
-        this.totalBookings       = data.summary.totalBookings;
-        this.completedServices   = data.summary.completedServices;
-        this.inProgress          = data.summary.inProgress;
-        this.readyForDelivery    = data.summary.readyForDelivery;
-        this.recentBookings      = data.recentBookings;
-        this.activeProgress      = data.activeProgress;
-        this.upcomingAppointment = data.upcomingAppointment;
-        this.isLoading           = false;
+
+        console.log(
+          'Dashboard Data:',
+          data
+        );
+
+        this.userName =
+          data.userName;
+
+        this.totalBookings =
+          data.summary.totalBookings;
+
+        this.completedServices =
+          data.summary.completedServices;
+
+        this.inProgress =
+          data.summary.inProgress;
+
+        this.readyForDelivery =
+          data.summary.readyForDelivery;
+
+        this.recentBookings =
+          data.recentBookings;
+
+        this.activeProgress =
+          data.activeProgress;
+
+        this.upcomingAppointment =
+          data.upcomingAppointment;
+
+        this.isLoading = false;
+
       },
       error: (err) => {
-        console.error('Dashboard load failed:', err);
-        this.errorMessage = 'Could not load dashboard. Ensure the backend is running.';
+
+        console.error(
+          'Dashboard load failed:',
+          err
+        );
+
+        this.errorMessage =
+          'Could not load dashboard. Ensure the backend is running.';
+
         this.isLoading = false;
-      },
+
+      }
     });
-  }
+
+}
 
   get timelineStages(): DashboardTimelineStage[] {
     return this.activeProgress?.timelineStages ?? [];
