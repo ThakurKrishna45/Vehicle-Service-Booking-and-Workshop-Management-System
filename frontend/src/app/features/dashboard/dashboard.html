@@ -6,7 +6,7 @@
   <div class="hero-section">
     <div class="hero-content">
 
-      <h1>Welcome Back, {{ userName }}</h1>
+      <h1>Welcome Back, {{ userName() }}</h1>
       <p>Manage your vehicle services, bookings and tracking from one place.</p>
 
       <div class="quick-actions">
@@ -52,28 +52,28 @@
 
     <app-dashboard-card
       [title]="'Total Bookings'"
-      [count]="totalBookings"
+      [count]="totalBookings()"
       [icon]="'📋'"
       [subtitle]="'All Appointments'">
     </app-dashboard-card>
 
     <app-dashboard-card
       [title]="'Completed Services'"
-      [count]="completedServices"
+      [count]="completedServices()"
       [icon]="'✅'"
       [subtitle]="'Successfully Delivered'">
     </app-dashboard-card>
 
     <app-dashboard-card
       [title]="'In Progress'"
-      [count]="inProgress"
+      [count]="inProgress()"
       [icon]="'🔧'"
       [subtitle]="'Currently Under Service'">
     </app-dashboard-card>
 
     <app-dashboard-card
       [title]="'Ready For Delivery'"
-      [count]="readyForDelivery"
+      [count]="readyForDelivery()"
       [icon]="'🚗'"
       [subtitle]="'Awaiting Pickup'">
     </app-dashboard-card>
@@ -87,19 +87,19 @@
 
       <h2>Current Service Progress</h2>
 
-      @if (activeProgress) {
+      @if (activeProgress()) {
 
         <div class="service-vehicle">
           <img src="https://img.icons8.com/color/96/car.png" alt="Vehicle" class="vehicle-image">
           <div class="vehicle-info">
-            <h3>{{ activeProgress.vehicleName }}</h3>
-            <p>{{ activeProgress.serviceName }}</p>
-            <span class="vehicle-number">{{ activeProgress.registrationNumber }}</span>
+            <h3>{{ activeProgress()!.vehicleName }}</h3>
+            <p>{{ activeProgress()!.serviceName }}</p>
+            <span class="vehicle-number">{{ activeProgress()!.registrationNumber }}</span>
           </div>
         </div>
 
         <div class="timeline">
-          @for (stage of timelineStages; track stage.label) {
+          @for (stage of timelineStages(); track stage.label) {
             <div class="timeline-item {{ stage.status }}">
               <div class="timeline-marker"></div>
               <div class="timeline-content">
@@ -115,11 +115,11 @@
         <div class="delivery-box">
           <div>
             <small>Estimated Delivery</small>
-            <h4>{{ activeProgress.estimatedDelivery }}</h4>
+            <h4>{{ activeProgress()!.estimatedDelivery }}</h4>
           </div>
           <div>
             <small>Status</small>
-            <h4>{{ activeProgress.daysRemaining }} Days Left</h4>
+            <h4>{{ activeProgress()!.daysRemaining }} Days Left</h4>
           </div>
         </div>
 
@@ -133,14 +133,14 @@
 
       <h2>Upcoming Appointment</h2>
 
-      @if (upcomingAppointment) {
+      @if (upcomingAppointment()) {
 
         <div class="service-vehicle">
           <img src="https://img.icons8.com/color/96/car.png" alt="Vehicle" class="vehicle-image">
           <div class="vehicle-info">
-            <h3>{{ upcomingAppointment.vehicleName }}</h3>
-            <p>{{ upcomingAppointment.serviceName }}</p>
-            <span class="vehicle-number">{{ upcomingAppointment.registrationNumber }}</span>
+            <h3>{{ upcomingAppointment()!.vehicleName }}</h3>
+            <p>{{ upcomingAppointment()!.serviceName }}</p>
+            <span class="vehicle-number">{{ upcomingAppointment()!.registrationNumber }}</span>
           </div>
         </div>
 
@@ -148,22 +148,22 @@
 
           <div class="detail-row">
             <span>Date</span>
-            <strong>{{ upcomingAppointment.bookingDate }}</strong>
+            <strong>{{ upcomingAppointment()!.bookingDate }}</strong>
           </div>
 
           <div class="detail-row">
             <span>Time</span>
-            <strong>{{ upcomingAppointment.slot }}</strong>
+            <strong>{{ upcomingAppointment()!.slot }}</strong>
           </div>
 
           <div class="detail-row">
             <span>Workshop</span>
-            <strong>{{ upcomingAppointment.workshopName }}</strong>
+            <strong>{{ upcomingAppointment()!.workshopName }}</strong>
           </div>
 
           <div class="detail-row">
             <span>Status</span>
-            <span class="status-badge">{{ upcomingAppointment.status }}</span>
+            <span class="status-badge">{{ upcomingAppointment()!.status }}</span>
           </div>
 
         </div>
@@ -193,7 +193,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (booking of recentBookings; track booking.bookingId) {
+        @for (booking of recentBookings(); track booking.bookingId) {
           <tr>
             <td>{{ booking.bookingId }}</td>
             <td>{{ booking.vehicle }}</td>
