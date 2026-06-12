@@ -9,7 +9,7 @@ import { Vehicle } from '../../../core/models/vehicle';
 @Component({
   selector: 'app-vehicle-list',
   standalone: true,
-  imports: [RouterLink,DecimalPipe],
+  imports: [RouterLink, DecimalPipe],
   templateUrl: './vehicle-list.html',
   styleUrl: './vehicle-list.css'
 })
@@ -21,7 +21,7 @@ export class VehicleList implements OnInit {
   readonly vehicles = signal<Vehicle[]>([]);
   readonly isLoading = signal(false);
   readonly errorMessage = signal('');
-  readonly deletingId = signal<number | null>(null);
+  readonly deletingId = signal<number | string | null>(null);
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -42,18 +42,22 @@ export class VehicleList implements OnInit {
     });
   }
 
-  editVehicle(id: number): void {
+  editVehicle(id: number | string): void {
     this.router.navigate(['/vehicles/edit', id]);
   }
 
-  deleteVehicle(id: number): void {
+  deleteVehicle(id: number | string): void {
     if (!confirm('Are you sure you want to delete this vehicle?')) return;
 
     this.deletingId.set(id);
     this.vehicleService.deleteVehicle(id).pipe(
       finalize(() => this.deletingId.set(null))
     ).subscribe({
-      next: () => this.vehicles.update(list => list.filter(v => v.id !== id)),
+      next: () =>
+        // Use String() comparison so "1" === 1 doesn't cause silent failures
+        this.vehicles.update(list =>
+          list.filter(v => String(v.id) !== String(id))
+        ),
       error: (err: Error) => this.errorMessage.set(err.message)
     });
   }
