@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { DashboardCard } from '../../shared/components/dashboard-card/dashboard-card';
-import { Navbar } from '../../shared/components/navbar/navbar';
-import { AuthService } from '../../core/services/auth.service';
+import { Router, RouterLink }        from '@angular/router';
+import { DashboardCard }             from '../../shared/components/dashboard-card/dashboard-card';
+import { Navbar }                    from '../../shared/components/navbar/navbar';
+import { AuthService }               from '../../core/services/auth.service';
+import { Component, OnInit, signal, computed } from '@angular/core';
+import { CommonModule }              from '@angular/common';
 import {
   DashboardService,
   DashboardPageData,
@@ -16,32 +16,47 @@ import {
 @Component({
   selector:    'app-dashboard',
   standalone:  true,
-  imports:     [CommonModule, RouterLink, DashboardCard, Navbar],
+  imports:     [CommonModule, DashboardCard, Navbar,RouterLink],
   templateUrl: './dashboard.html',
   styleUrl:    './dashboard.css',
 })
 export class Dashboard implements OnInit {
 
-  private readonly router           = inject(Router);
-  private readonly auth             = inject(AuthService);
-  private readonly dashboardService = inject(DashboardService);
+  // ── Summary card counts ────────────────────────────────────────────────────
+  totalBookings     = signal(0);
+  completedServices = signal(0);
+  inProgress        = signal(0);
+  readyForDelivery  = signal(0);
 
-  totalBookings     = 0;
-  completedServices = 0;
-  inProgress        = 0;
-  readyForDelivery  = 0;
+  // ── Hero section ───────────────────────────────────────────────────────────
+  userName = signal('Customer');
 
-  userName             = 'Customer';
-  recentBookings:      RecentBookingRow[]            = [];
-  activeProgress:      ActiveServiceProgress | null  = null;
-  upcomingAppointment: UpcomingAppointment   | null  = null;
+  // ── Recent bookings table ──────────────────────────────────────────────────
+  recentBookings = signal<RecentBookingRow[]>([]);
 
-  isLoading    = true;
-  errorMessage = '';
+  // ── Current service progress card ─────────────────────────────────────────
+  activeProgress = signal<ActiveServiceProgress | null>(null);
+
+  // ── Upcoming appointment card ──────────────────────────────────────────────
+  upcomingAppointment = signal<UpcomingAppointment | null>(null);
+
+  // ── Loading state ──────────────────────────────────────────────────────────
+  isLoading = signal(true);
+
+  // ── Timeline derived from activeProgress signal ────────────────────────────
+  timelineStages = computed<DashboardTimelineStage[]>(
+    () => this.activeProgress()?.timelineStages ?? []
+  );
+
+  constructor(
+    private router:           Router,
+    private dashboardService: DashboardService,
+    private auth:             AuthService,
+  ) {}
 goToBookings(): void {
   this.router.navigate(['/bookings']);
 }
- ngOnInit(): void {
+  ngOnInit(): void {
 
   const currentUser =
     this.auth.currentUser();
@@ -56,58 +71,54 @@ goToBookings(): void {
     .subscribe({
       next: (data: DashboardPageData) => {
 
-        console.log(
-          'Dashboard Data:',
-          data
+        this.userName.set(
+          data.userName
         );
 
-        this.userName =
-          data.userName;
+        this.totalBookings.set(
+          data.summary.totalBookings
+        );
 
-        this.totalBookings =
-          data.summary.totalBookings;
+        this.completedServices.set(
+          data.summary.completedServices
+        );
 
-        this.completedServices =
-          data.summary.completedServices;
+        this.inProgress.set(
+          data.summary.inProgress
+        );
 
-        this.inProgress =
-          data.summary.inProgress;
+        this.readyForDelivery.set(
+          data.summary.readyForDelivery
+        );
 
-        this.readyForDelivery =
-          data.summary.readyForDelivery;
+        this.recentBookings.set(
+          data.recentBookings
+        );
 
-        this.recentBookings =
-          data.recentBookings;
+        this.activeProgress.set(
+          data.activeProgress
+        );
 
-        this.activeProgress =
-          data.activeProgress;
+        this.upcomingAppointment.set(
+          data.upcomingAppointment
+        );
 
-        this.upcomingAppointment =
-          data.upcomingAppointment;
-
-        this.isLoading = false;
+        this.isLoading.set(false);
 
       },
       error: (err) => {
 
         console.error(
-          'Dashboard load failed:',
+          'Dashboard data load failed:',
           err
         );
 
-        this.errorMessage =
-          'Could not load dashboard. Ensure the backend is running.';
-
-        this.isLoading = false;
+        this.isLoading.set(false);
 
       }
     });
 
 }
-
-  get timelineStages(): DashboardTimelineStage[] {
-    return this.activeProgress?.timelineStages ?? [];
-  }
 
   goToTracking(): void {
     this.router.navigate(['/service-tracking']);

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-card',
@@ -9,9 +9,9 @@ import { Component, Input } from '@angular/core';
 })
 export class DashboardCard {
 
-  @Input() title: string = '';
-  @Input() count: number = 0;
-  @Input() icon = '';
-@Input() subtitle = '';
+  title    = input<string>('');
+  count    = input<number>(0);
+  icon     = input<string>('');
+  subtitle = input<string>('');
 
 }

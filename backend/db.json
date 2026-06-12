@@ -288,22 +288,175 @@
   "invoices": [
     {
       "id": "1",
-      "bookingId": 1,
-      "serviceCharge": 1500,
-      "partsCharge": 500,
-      "tax": 360,
-      "totalAmount": 2360,
+      "bookingId": 101,
+      "serviceCharge": 2000,
+      "partsCharge": 1000,
+      "tax": 540,
+      "totalAmount": 3540,
       "invoiceDate": "2026-06-10"
+    },
+    {
+      "id": "2",
+      "bookingId": 102,
+      "serviceCharge": 3000,
+      "partsCharge": 1500,
+      "tax": 810,
+      "totalAmount": 5310,
+      "invoiceDate": "2026-06-11"
+    },
+    {
+      "id": "3",
+      "bookingId": 103,
+      "serviceCharge": 2500,
+      "partsCharge": 1200,
+      "tax": 666,
+      "totalAmount": 4366,
+      "invoiceDate": "2026-06-12"
+    },
+    {
+      "id": "4",
+      "bookingId": 104,
+      "serviceCharge": 1800,
+      "partsCharge": 900,
+      "tax": 486,
+      "totalAmount": 3186,
+      "invoiceDate": "2026-06-13"
+    },
+    {
+      "id": "5",
+      "bookingId": 105,
+      "serviceCharge": 3500,
+      "partsCharge": 1800,
+      "tax": 954,
+      "totalAmount": 6254,
+      "invoiceDate": "2026-06-14"
+    },
+    {
+      "id": "6",
+      "bookingId": 106,
+      "serviceCharge": 2200,
+      "partsCharge": 1100,
+      "tax": 594,
+      "totalAmount": 3894,
+      "invoiceDate": "2026-06-15"
+    },
+    {
+      "id": "7",
+      "bookingId": 107,
+      "serviceCharge": 4000,
+      "partsCharge": 2500,
+      "tax": 1170,
+      "totalAmount": 7670,
+      "invoiceDate": "2026-06-16"
+    },
+    {
+      "id": "8",
+      "bookingId": 108,
+      "serviceCharge": 2700,
+      "partsCharge": 1300,
+      "tax": 720,
+      "totalAmount": 4720,
+      "invoiceDate": "2026-06-17"
+    },
+    {
+      "id": "9",
+      "bookingId": 109,
+      "serviceCharge": 3200,
+      "partsCharge": 1700,
+      "tax": 882,
+      "totalAmount": 5782,
+      "invoiceDate": "2026-06-18"
+    },
+    {
+      "id": "10",
+      "bookingId": 110,
+      "serviceCharge": 2800,
+      "partsCharge": 1400,
+      "tax": 756,
+      "totalAmount": 4956,
+      "invoiceDate": "2026-06-19"
     }
   ],
   "complaints": [
     {
       "id": "1",
-      "bookingId": 1,
+      "bookingId": 101,
+      "customerId": 1,
+      "subject": "Engine Noise",
+      "description": "Strange sound from engine",
+      "status": "Resolved"
+    },
+    {
+      "id": "2",
+      "bookingId": 102,
       "customerId": 2,
-      "subject": "Engine Issue",
-      "description": "Noise still exists after service",
-      "status": "Open"
+      "subject": "Brake Issue",
+      "description": "Brakes not responding properly",
+      "status": "Pending"
+    },
+    {
+      "id": "3",
+      "bookingId": 103,
+      "customerId": 3,
+      "subject": "Oil Leakage",
+      "description": "Oil leaking under the vehicle",
+      "status": "In Progress"
+    },
+    {
+      "id": "4",
+      "bookingId": 104,
+      "customerId": 4,
+      "subject": "Battery Problem",
+      "description": "Battery drains quickly",
+      "status": "Resolved"
+    },
+    {
+      "id": "5",
+      "bookingId": 105,
+      "customerId": 5,
+      "subject": "AC Not Cooling",
+      "description": "Air conditioner is not cooling properly",
+      "status": "Pending"
+    },
+    {
+      "id": "6",
+      "bookingId": 106,
+      "customerId": 6,
+      "subject": "Steering Vibration",
+      "description": "Steering wheel vibrates at high speed",
+      "status": "Resolved"
+    },
+    {
+      "id": "7",
+      "bookingId": 107,
+      "customerId": 7,
+      "subject": "Headlight Failure",
+      "description": "Left headlight stopped working",
+      "status": "Resolved"
+    },
+    {
+      "id": "8",
+      "bookingId": 108,
+      "customerId": 8,
+      "subject": "Suspension Noise",
+      "description": "Noise coming from suspension",
+      "status": "Resolved"
+    },
+    {
+      "id": "9",
+      "bookingId": 109,
+      "customerId": 9,
+      "subject": "Gear Shifting Issue",
+      "description": "Difficulty while changing gears",
+      "status": "In Progress"
+    },
+    {
+      "id": "10",
+      "bookingId": 110,
+      "customerId": 10,
+      "subject": "Overheating",
+      "description": "Engine temperature rises quickly",
+      "status": "Resolved"
     }
   ],
   "notifications": [
