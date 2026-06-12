@@ -35,10 +35,28 @@ export class Login {
     this.auth.login(this.form.getRawValue()).pipe(
       finalize(() => this.isSubmitting.set(false))
     ).subscribe({
-      next: () => {
-        const returnUrl = this.router.parseUrl(this.router.url).queryParams['returnUrl'];
-        this.router.navigateByUrl(returnUrl || '/dashboard');
-      },
+     next: (user) => {
+
+  const returnUrl =
+    this.router.parseUrl(this.router.url)
+      .queryParams['returnUrl'];
+
+  if (returnUrl) {
+    this.router.navigateByUrl(returnUrl);
+    return;
+  }
+
+  if (user.role === 'admin') {
+
+    this.router.navigateByUrl('/admin');
+
+  } else {
+
+    this.router.navigateByUrl('/dashboard');
+
+  }
+
+},
       error: (error: Error) => this.errorMessage.set(error.message)
     });
   }

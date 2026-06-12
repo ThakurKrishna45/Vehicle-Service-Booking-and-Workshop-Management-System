@@ -1,0 +1,77 @@
+<h2>Booking History</h2>
+<div class="filters">
+
+  <label class="status-label">Status</label>
+
+  <select [(ngModel)]="selectedStatus">
+
+    <option value="">
+      All Status
+    </option>
+
+    <option value="Requested">
+      Requested
+    </option>
+
+    <option value="Confirmed">
+      Confirmed
+    </option>
+
+    <option value="Inspection">
+      Inspection
+    </option>
+
+    <option value="Repair">
+      Repair
+    </option>
+
+    <option value="Completed">
+      Completed
+    </option>
+
+  </select>
+
+</div>
+<br><br>
+
+@if(bookings().length === 0){
+
+  <p>No bookings found</p>
+
+}
+@else {
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>Booking Id</th>
+        <th>Date</th>
+        <th>Slot</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      @for(booking of filteredBookings; track booking.id){
+
+        <tr>
+
+          <td>{{ booking.id }}</td>
+
+          <td>{{ booking.bookingDate }}</td>
+
+          <td>{{ booking.slot }}</td>
+
+          <td>{{ booking.status }}</td>
+
+        </tr>
+
+      }
+
+    </tbody>
+
+  </table>
+
+}

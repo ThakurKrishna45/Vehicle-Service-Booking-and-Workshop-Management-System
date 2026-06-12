@@ -16,5 +16,470 @@
       "password": "admin123",
       "role": "admin"
     }
-  ]
+  ],
+  "vehicles": [
+    {
+      "id": "1",
+      "userId": 2,
+      "vehicleNumber": "UP32AB1234",
+      "vehicleType": "Car",
+      "brand": "Honda",
+      "model": "City",
+      "year": 2022,
+      "odometer": 15000
+    }
+  ],
+  "servicePackages": [
+    {
+      "id": "1",
+      "name": "Basic Service",
+      "category": "Maintenance",
+      "description": "General vehicle inspection and oil change",
+      "duration": "2 Hours",
+      "price": 1500
+    },
+    {
+      "id": "2",
+      "name": "Premium Service",
+      "category": "Maintenance",
+      "description": "Complete service package",
+      "duration": "5 Hours",
+      "price": 4500
+    },
+    {
+      "id": "3",
+      "name": "AC Service",
+      "category": "Repair",
+      "description": "Air conditioning maintenance",
+      "duration": "3 Hours",
+      "price": 2000
+    }
+  ],
+  "bookings": [
+    {
+      "id": "1",
+      "userId": 2,
+      "vehicleId": 1,
+      "serviceId": 1,
+      "bookingDate": "2026-06-10",
+      "slot": "10:00 AM",
+      "issueDescription": "Engine noise",
+      "status": "Requested"
+    },
+    {
+      "vehicleId": 1,
+      "serviceId": 1,
+      "bookingDate": "2026-06-11",
+      "slot": "1",
+      "issueDescription": "1",
+      "userId": 1,
+      "status": "Requested",
+      "id": "aPXW0sBQWu0"
+    },
+    {
+      "vehicleId": 1,
+      "serviceId": 1,
+      "bookingDate": "2026-06-11",
+      "slot": "1",
+      "issueDescription": "1",
+      "userId": 1,
+      "status": "Requested",
+      "id": "Yv8Q6mJtZyo"
+    },
+    {
+      "vehicleId": 1,
+      "serviceId": 1,
+      "bookingDate": "2026-06-11",
+      "slot": "12:00 PM",
+      "issueDescription": "",
+      "userId": 1,
+      "status": "Requested",
+      "id": "4dpY5xYHX8A"
+    },
+    {
+      "vehicleId": 2,
+      "serviceId": 2,
+      "bookingDate": "2026-06-12",
+      "slot": "10:00 AM",
+      "issueDescription": "ds",
+      "userId": 1,
+      "status": "Requested",
+      "id": "R_mh3AMH1sI"
+    },
+    {
+  "id": "6",
+  "userId": 2,
+  "vehicleId": 1,
+  "serviceId": 2,
+  "bookingDate": "2026-06-13",
+  "slot": "09:00 AM",
+  "issueDescription": "Brake check",
+  "status": "Confirmed"
+},
+{
+  "id": "7",
+  "userId": 3,
+  "vehicleId": 2,
+  "serviceId": 1,
+  "bookingDate": "2026-06-14",
+  "slot": "11:00 AM",
+  "issueDescription": "Oil leakage",
+  "status": "Inspection"
+},
+{
+  "id": "8",
+  "userId": 4,
+  "vehicleId": 3,
+  "serviceId": 3,
+  "bookingDate": "2026-06-15",
+  "slot": "02:00 PM",
+  "issueDescription": "AC not cooling",
+  "status": "Repair"
+},
+{
+  "id": "9",
+  "userId": 1,
+  "vehicleId": 1,
+  "serviceId": 2,
+  "bookingDate": "2026-06-16",
+  "slot": "10:00 AM",
+  "issueDescription": "Wheel alignment",
+  "status": "Completed"
+},
+{
+  "id": "10",
+  "userId": 2,
+  "vehicleId": 2,
+  "serviceId": 1,
+  "bookingDate": "2026-06-17",
+  "slot": "12:00 PM",
+  "issueDescription": "Battery issue",
+  "status": "Requested"
+},
+{
+  "id": "11",
+  "userId": 3,
+  "vehicleId": 3,
+  "serviceId": 2,
+  "bookingDate": "2026-06-18",
+  "slot": "03:00 PM",
+  "issueDescription": "Engine overheating",
+  "status": "Confirmed"
+},
+{
+  "id": "12",
+  "userId": 4,
+  "vehicleId": 1,
+  "serviceId": 3,
+  "bookingDate": "2026-06-19",
+  "slot": "09:00 AM",
+  "issueDescription": "AC gas refill",
+  "status": "Repair"
+},
+{
+  "id": "13",
+  "userId": 1,
+  "vehicleId": 2,
+  "serviceId": 1,
+  "bookingDate": "2026-06-20",
+  "slot": "11:00 AM",
+  "issueDescription": "General servicing",
+  "status": "Completed"
+},
+{
+  "id": "14",
+  "userId": 2,
+  "vehicleId": 3,
+  "serviceId": 2,
+  "bookingDate": "2026-06-21",
+  "slot": "01:00 PM",
+  "issueDescription": "Brake pads replacement",
+  "status": "Inspection"
+},
+{
+  "id": "15",
+  "userId": 3,
+  "vehicleId": 1,
+  "serviceId": 3,
+  "bookingDate": "2026-06-22",
+  "slot": "10:00 AM",
+  "issueDescription": "AC compressor issue",
+  "status": "Requested"
+},
+{
+  "id": "16",
+  "userId": 4,
+  "vehicleId": 2,
+  "serviceId": 1,
+  "bookingDate": "2026-06-23",
+  "slot": "12:00 PM",
+  "issueDescription": "Oil change",
+  "status": "Completed"
+},
+{
+  "id": "17",
+  "userId": 1,
+  "vehicleId": 3,
+  "serviceId": 2,
+  "bookingDate": "2026-06-24",
+  "slot": "02:00 PM",
+  "issueDescription": "Steering vibration",
+  "status": "Repair"
+},
+{
+  "id": "18",
+  "userId": 2,
+  "vehicleId": 1,
+  "serviceId": 1,
+  "bookingDate": "2026-06-25",
+  "slot": "09:00 AM",
+  "issueDescription": "Suspension noise",
+  "status": "Confirmed"
+},
+{
+  "id": "19",
+  "userId": 3,
+  "vehicleId": 2,
+  "serviceId": 3,
+  "bookingDate": "2026-06-26",
+  "slot": "11:00 AM",
+  "issueDescription": "Cooling issue",
+  "status": "Inspection"
+},
+{
+  "id": "20",
+  "userId": 4,
+  "vehicleId": 3,
+  "serviceId": 2,
+  "bookingDate": "2026-06-27",
+  "slot": "03:00 PM",
+  "issueDescription": "Engine tuning",
+  "status": "Completed"
+}
+  ],
+  "serviceTimelines": [
+    {
+      "id": "1",
+      "bookingId": 1,
+      "stage": "Inspection",
+      "updatedAt": "2026-06-10T10:00:00"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "1",
+      "bookingId": 101,
+      "serviceCharge": 2000,
+      "partsCharge": 1000,
+      "tax": 540,
+      "totalAmount": 3540,
+      "invoiceDate": "2026-06-10"
+    },
+    {
+      "id": "2",
+      "bookingId": 102,
+      "serviceCharge": 3000,
+      "partsCharge": 1500,
+      "tax": 810,
+      "totalAmount": 5310,
+      "invoiceDate": "2026-06-11"
+    },
+    {
+      "id": "3",
+      "bookingId": 103,
+      "serviceCharge": 2500,
+      "partsCharge": 1200,
+      "tax": 666,
+      "totalAmount": 4366,
+      "invoiceDate": "2026-06-12"
+    },
+    {
+      "id": "4",
+      "bookingId": 104,
+      "serviceCharge": 1800,
+      "partsCharge": 900,
+      "tax": 486,
+      "totalAmount": 3186,
+      "invoiceDate": "2026-06-13"
+    },
+    {
+      "id": "5",
+      "bookingId": 105,
+      "serviceCharge": 3500,
+      "partsCharge": 1800,
+      "tax": 954,
+      "totalAmount": 6254,
+      "invoiceDate": "2026-06-14"
+    },
+    {
+      "id": "6",
+      "bookingId": 106,
+      "serviceCharge": 2200,
+      "partsCharge": 1100,
+      "tax": 594,
+      "totalAmount": 3894,
+      "invoiceDate": "2026-06-15"
+    },
+    {
+      "id": "7",
+      "bookingId": 107,
+      "serviceCharge": 4000,
+      "partsCharge": 2500,
+      "tax": 1170,
+      "totalAmount": 7670,
+      "invoiceDate": "2026-06-16"
+    },
+    {
+      "id": "8",
+      "bookingId": 108,
+      "serviceCharge": 2700,
+      "partsCharge": 1300,
+      "tax": 720,
+      "totalAmount": 4720,
+      "invoiceDate": "2026-06-17"
+    },
+    {
+      "id": "9",
+      "bookingId": 109,
+      "serviceCharge": 3200,
+      "partsCharge": 1700,
+      "tax": 882,
+      "totalAmount": 5782,
+      "invoiceDate": "2026-06-18"
+    },
+    {
+      "id": "10",
+      "bookingId": 110,
+      "serviceCharge": 2800,
+      "partsCharge": 1400,
+      "tax": 756,
+      "totalAmount": 4956,
+      "invoiceDate": "2026-06-19"
+    }
+  ],
+  "complaints": [
+    {
+      "id": 1,
+      "bookingId": 101,
+      "customerId": 1,
+      "subject": "Engine Noise",
+      "description": "Strange sound from engine",
+      "status": "Resolved"
+    },
+    {
+      "id": 2,
+      "bookingId": 102,
+      "customerId": 2,
+      "subject": "Brake Issue",
+      "description": "Brakes not responding properly",
+      "status": "Pending"
+    },
+    {
+      "id": 3,
+      "bookingId": 103,
+      "customerId": 3,
+      "subject": "Oil Leakage",
+      "description": "Oil leaking under the vehicle",
+      "status": "In Progress"
+    },
+    {
+      "id": 4,
+      "bookingId": 104,
+      "customerId": 4,
+      "subject": "Battery Problem",
+      "description": "Battery drains quickly",
+      "status": "Resolved"
+    },
+    {
+      "id": 5,
+      "bookingId": 105,
+      "customerId": 5,
+      "subject": "AC Not Cooling",
+      "description": "Air conditioner is not cooling properly",
+      "status": "Pending"
+    },
+    {
+      "id": 6,
+      "bookingId": 106,
+      "customerId": 6,
+      "subject": "Steering Vibration",
+      "description": "Steering wheel vibrates at high speed",
+      "status": "Resolved"
+    },
+    {
+      "id": 7,
+      "bookingId": 107,
+      "customerId": 7,
+      "subject": "Headlight Failure",
+      "description": "Left headlight stopped working",
+      "status": "Resolved"
+    },
+    {
+      "id": 8,
+      "bookingId": 108,
+      "customerId": 8,
+      "subject": "Suspension Noise",
+      "description": "Noise coming from suspension",
+      "status": "Resolved"
+    },
+    {
+      "id": 9,
+      "bookingId": 109,
+      "customerId": 9,
+      "subject": "Gear Shifting Issue",
+      "description": "Difficulty while changing gears",
+      "status": "In Progress"
+    },
+    {
+      "id": 10,
+      "bookingId": 110,
+      "customerId": 10,
+      "subject": "Overheating",
+      "description": "Engine temperature rises quickly",
+      "status": "Resolved"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "1",
+      "userId": 2,
+      "message": "Booking Confirmed",
+      "type": "BOOKING",
+      "isRead": false,
+      "createdAt": "2026-06-10T09:00:00"
+    }
+  ],
+  "bookingSlots": [
+    {
+      "id": "1",
+      "date": "2026-06-10",
+      "time": "10:00 AM",
+      "available": true
+    },
+    {
+      "id": "2",
+      "date": "2026-06-10",
+      "time": "12:00 PM",
+      "available": true
+    }
+  ],
+  "technicians": [
+    {
+      "id": "1",
+      "name": "Rajesh Kumar",
+      "specialization": "Engine Repair",
+      "availability": "Available"
+    }
+  ],
+  "serviceHistories": [
+    {
+      "id": "1",
+      "vehicleId": 1,
+      "bookingId": 1,
+      "serviceDate": "2026-05-01",
+      "serviceName": "Basic Service",
+      "remarks": "Completed Successfully"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

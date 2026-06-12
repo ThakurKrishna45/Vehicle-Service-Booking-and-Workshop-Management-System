@@ -1,0 +1,107 @@
+<div class="page-container">
+
+  <div class="header">
+
+    <h1>Complaint Management</h1>
+
+    <p>
+      Manage and resolve customer complaints
+    </p>
+
+  </div>
+
+  @for (
+    complaint of complaints();
+    track complaint.id
+  ) {
+
+    <div class="complaint-card">
+
+      <div class="complaint-top">
+
+        <div>
+
+          <h3>
+            {{ complaint.subject }}
+          </h3>
+
+          <p>
+            Complaint ID :
+            {{ complaint.id }}
+          </p>
+
+          <p>
+            Booking ID :
+            {{ complaint.bookingId }}
+          </p>
+
+          <p>
+            Customer ID :
+            {{ complaint.customerId }}
+          </p>
+
+        </div>
+
+        <span
+          class="status-badge"
+          [ngClass]="{
+            'open': complaint.status === 'Pending',
+            'review': complaint.status === 'In Review',
+            'resolved': complaint.status === 'Resolved'
+          }">
+
+          {{ complaint.status }}
+
+        </span>
+
+      </div>
+
+      <div class="description">
+
+        {{ complaint.description }}
+
+      </div>
+
+      <div class="actions">
+
+        @if (
+          complaint.status === 'Pending'
+        ) {
+
+          <button
+            class="review-btn"
+            (click)="markAsReview(complaint)">
+
+            Mark In Review
+
+          </button>
+
+        }
+
+        @if (
+          complaint.status !== 'Resolved'
+        ) {
+
+          <button
+            class="resolve-btn"
+            (click)="markAsResolved(complaint)">
+
+            Mark As Resolved
+
+          </button>
+
+        }
+
+      </div>
+
+    </div>
+
+  } @empty {
+
+    <p>
+      No complaints found.
+    </p>
+
+  }
+
+</div>

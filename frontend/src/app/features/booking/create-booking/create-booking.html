@@ -1,0 +1,112 @@
+<h2>Create Booking</h2>
+<div class="booking-form">
+
+<form
+  [formGroup]="bookingForm"
+  (ngSubmit)="createBooking()">
+
+  <div>
+
+    <label>Vehicle Id</label>
+
+    <br>
+
+    <input
+      type="number"
+      formControlName="vehicleId">
+
+  </div>
+
+  <br>
+
+  <div>
+
+    <label>Service Id</label>
+
+    <br>
+
+    <input
+      type="number"
+      formControlName="serviceId">
+
+  </div>
+
+  <br>
+
+  <div>
+
+    <label>Booking Date</label>
+
+    <br>
+
+<input
+  type="date"
+  formControlName="bookingDate">
+
+@if (
+  bookingForm.get('bookingDate')?.hasError('invalidDate')
+  &&
+  bookingForm.get('bookingDate')?.touched
+) {
+  <p class="error">
+    Past dates are not allowed
+  </p>
+}
+
+  </div>
+
+  <br>
+
+  <div>
+
+    <label>Select Slot</label>
+
+    <br>
+
+    <select formControlName="slot">
+
+      <option value="">
+        Select Slot
+      </option>
+
+      @for(slot of slots(); track slot.id){
+
+        <option [value]="slot.time">
+
+          {{ slot.date }} - {{ slot.time }}
+
+        </option>
+
+      }
+
+    </select>
+
+  </div>
+
+  <br>
+
+  <div>
+
+    <label>Issue Description</label>
+
+    <br>
+
+    <textarea
+      rows="4"
+      formControlName="issueDescription">
+    </textarea>
+
+  </div>
+
+  <br>
+
+  <button
+    type="submit"
+    [disabled]="bookingForm.invalid">
+
+    Book Service
+
+  </button>
+
+</form>
+</div>

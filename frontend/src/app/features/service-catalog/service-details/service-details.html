@@ -1,0 +1,38 @@
+@if(service()) {
+
+  <div class="details-card">
+
+    <h2>{{ service()?.name }}</h2>
+
+    <p>
+      Category:
+      {{ service()?.category }}
+    </p>
+
+    <p>
+      Description:
+      {{ service()?.description }}
+    </p>
+
+    <p>
+      Duration:
+      {{ service()?.duration }}
+    </p>
+
+    <p>
+      Price:
+      ₹{{ service()?.price }}
+    </p>
+
+    <button routerLink="/booking">
+      Book Service
+    </button>
+
+  </div>
+
+}
+@else {
+
+  <p>Loading Service...</p>
+
+}

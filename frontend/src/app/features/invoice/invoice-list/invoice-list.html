@@ -1,0 +1,68 @@
+<div class="invoice-container">
+
+  <div class="page-header">
+    <h1>Invoice Management</h1>
+    <p>View all generated invoices</p>
+  </div>
+
+  @if (invoices().length === 0) {
+
+    <p>No invoices found.</p>
+
+  } @else {
+
+    @for (
+      invoice of invoices();
+      track invoice.id
+    ) {
+
+      <div class="invoice-card">
+
+        <div class="invoice-header">
+
+          <h3>
+            Invoice #{{ invoice.id }}
+          </h3>
+
+          <span class="date">
+            {{ invoice.invoiceDate }}
+          </span>
+
+        </div>
+
+        <div class="invoice-details">
+
+          <p>
+            Booking ID :
+            {{ invoice.bookingId }}
+          </p>
+
+          <p>
+            Service Charge :
+            ₹{{ invoice.serviceCharge }}
+          </p>
+
+          <p>
+            Parts Charge :
+            ₹{{ invoice.partsCharge }}
+          </p>
+
+          <p>
+            Tax :
+            ₹{{ invoice.tax }}
+          </p>
+
+          <h4>
+            Total :
+            ₹{{ invoice.totalAmount }}
+          </h4>
+
+        </div>
+
+      </div>
+
+    }
+
+  }
+
+</div>
