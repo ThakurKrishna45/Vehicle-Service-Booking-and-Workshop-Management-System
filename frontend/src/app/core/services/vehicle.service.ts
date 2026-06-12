@@ -15,7 +15,7 @@ export class VehicleService {
     );
   }
 
-  getVehicleById(id: number): Observable<Vehicle> {
+  getVehicleById(id: number | string): Observable<Vehicle> {
     return this.http.get<Vehicle>(`${this.apiUrl}/${id}`).pipe(
       catchError(() => throwError(() => new Error('Vehicle not found.')))
     );
@@ -27,13 +27,13 @@ export class VehicleService {
     );
   }
 
-  updateVehicle(id: number, vehicle: Partial<Vehicle>): Observable<Vehicle> {
+  updateVehicle(id: number | string, vehicle: Partial<Vehicle>): Observable<Vehicle> {
     return this.http.patch<Vehicle>(`${this.apiUrl}/${id}`, vehicle).pipe(
       catchError(() => throwError(() => new Error('Failed to update vehicle. Please try again.')))
     );
   }
 
-  deleteVehicle(id: number): Observable<void> {
+  deleteVehicle(id: number | string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(() => throwError(() => new Error('Failed to delete vehicle. Please try again.')))
     );

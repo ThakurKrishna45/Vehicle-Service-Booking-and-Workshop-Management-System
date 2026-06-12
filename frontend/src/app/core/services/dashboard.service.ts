@@ -8,44 +8,39 @@ import { Vehicle }         from '../models/vehicle';
 import { ServicePackage }  from '../models/service-package';
 import { ServiceTracking } from '../models/service-tracking';
 
-// ─── Local interfaces ────────────────────────────────────────────────────────
+// ─── Exported interfaces (used by dashboard.ts) ───────────────────────────────
 
-/** Counts used by the Customer Dashboard summary cards. */
 export interface DashboardSummary {
-  totalBookings:    number;
+  totalBookings:     number;
   completedServices: number;
-  inProgress:       number;
-  readyForDelivery: number;
+  inProgress:        number;
+  readyForDelivery:  number;
 }
 
-/** One enriched row for the Recent Bookings table. */
 export interface RecentBookingRow {
   bookingId: string;
-  vehicle:   string;   // resolved brand + model
-  service:   string;   // resolved service package name
+  vehicle:   string;
+  service:   string;
   status:    string;
 }
 
-/** A single stage entry for the inline dashboard timeline. */
 export interface DashboardTimelineStage {
   label:     string;
   status:    'completed' | 'active' | 'pending';
   timestamp: string;
 }
 
-/** Data for the Current Service Progress card. */
 export interface ActiveServiceProgress {
-  bookingId:         string;
-  vehicleName:       string;
+  bookingId:          string;
+  vehicleName:        string;
   registrationNumber: string;
-  serviceName:       string;
-  currentStage:      string;
-  estimatedDelivery: string;
-  daysRemaining:     number;
-  timelineStages:    DashboardTimelineStage[];
+  serviceName:        string;
+  currentStage:       string;
+  estimatedDelivery:  string;
+  daysRemaining:      number;
+  timelineStages:     DashboardTimelineStage[];
 }
 
-/** Data for the Upcoming Appointment card. */
 export interface UpcomingAppointment {
   vehicleName:        string;
   serviceName:        string;
@@ -56,16 +51,15 @@ export interface UpcomingAppointment {
   status:             string;
 }
 
-/** Full composed payload returned by getDashboardPageData(). */
 export interface DashboardPageData {
-  userName:           string;
-  summary:            DashboardSummary;
-  recentBookings:     RecentBookingRow[];
-  activeProgress:     ActiveServiceProgress | null;
+  userName:            string;
+  summary:             DashboardSummary;
+  recentBookings:      RecentBookingRow[];
+  activeProgress:      ActiveServiceProgress | null;
   upcomingAppointment: UpcomingAppointment | null;
 }
 
-// ─── Stage order ─────────────────────────────────────────────────────────────
+// ─── Stage order ──────────────────────────────────────────────────────────────
 
 const STAGE_ORDER = [
   'Received',
@@ -75,7 +69,7 @@ const STAGE_ORDER = [
   'Ready For Delivery',
 ] as const;
 
-// ─── Service ─────────────────────────────────────────────────────────────────
+// ─── Service ──────────────────────────────────────────────────────────────────
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
@@ -90,20 +84,8 @@ export class DashboardService {
     return this.http.get<User[]>(`${this.base}/users`);
   }
 
-  getUserById(id: string): Observable<User> {
-    return this.http.get<User>(`${this.base}/users/${id}`);
-  }
-
   getBookings(): Observable<Booking[]> {
     return this.http.get<Booking[]>(`${this.base}/bookings`);
-  }
-
-  getBookingById(id: string): Observable<Booking> {
-    return this.http.get<Booking>(`${this.base}/bookings/${id}`);
-  }
-
-  getBookingsByUserId(userId: string): Observable<Booking[]> {
-    return this.http.get<Booking[]>(`${this.base}/bookings?userId=${userId}`);
   }
 
   getVehicles(): Observable<Vehicle[]> {
@@ -118,26 +100,8 @@ export class DashboardService {
     return this.http.get<ServiceTracking[]>(`${this.base}/serviceTracking`);
   }
 
-  // ── Legacy summary (kept for backward-compat) ─────────────────────────────
+  // ── Composed page-data ────────────────────────────────────────────────────
 
-  getDashboardSummary(): Observable<DashboardSummary> {
-    return forkJoin({
-      bookings: this.getBookings(),
-      tracking: this.getServiceTracking(),
-    }).pipe(
-      map(({ bookings, tracking }) => this.buildSummary(bookings, tracking))
-    );
-  }
-
-  // ── Composed page-data method ─────────────────────────────────────────────
-
-  /**
-   * Returns everything the Dashboard component needs in a single call.
-   *
-   * Pass the logged-in userId so that bookings are scoped to that customer.
-   * If userId is null/undefined the method returns data for all users
-   * (useful during development before auth is wired up).
-   */
   getDashboardPageData(userId: string | null): Observable<DashboardPageData> {
     return forkJoin({
       users:           this.getUsers(),
@@ -149,25 +113,41 @@ export class DashboardService {
       map(({ users, bookings, vehicles, servicePackages, tracking }) => {
 
         // ── lookup maps ────────────────────────────────────────────────────
-        const vehicleMap  = new Map(vehicles.map(v  => [String(v.id),  v]));
-        const packageMap  = new Map(servicePackages.map(p => [String(p.id), p]));
-        const userMap     = new Map(users.map(u => [String(u.id), u]));
+        // Always compare as strings — db.json stores all IDs as strings.
+        const vehicleMap = new Map(vehicles.map(v => [String(v.id), v]));
+        const packageMap = new Map(servicePackages.map(p => [String(p.id), p]));
+        const userMap    = new Map(users.map(u => [String(u.id), u]));
 
-        // ── filter bookings to current user (if known) ─────────────────────
+        // ── filter to current user's bookings ──────────────────────────────
         const userBookings = userId
           ? bookings.filter(b => String(b.userId) === String(userId))
           : bookings;
 
-        // ── user display name ──────────────────────────────────────────────
-        const currentUser = userId ? userMap.get(String(userId)) : null;
-        const userName = currentUser?.name ?? 'Customer';
-
-        // ── summary cards ──────────────────────────────────────────────────
         const userTracking = userId
           ? tracking.filter(t => String(t.userId) === String(userId))
           : tracking;
 
-        const summary = this.buildSummary(userBookings, userTracking);
+        // ── display name ───────────────────────────────────────────────────
+        const currentUser = userId ? userMap.get(String(userId)) : null;
+        const userName    = currentUser?.name ?? 'Customer';
+
+        // ── summary ────────────────────────────────────────────────────────
+        // Count booking statuses directly from bookings (not tracking) so
+        // the numbers are always correct even when serviceTracking is empty.
+        const summary: DashboardSummary = {
+          totalBookings:     userBookings.length,
+          completedServices: userBookings.filter(b =>
+            b.status === 'Completed' || b.status === 'Ready For Delivery'
+          ).length,
+          inProgress: userBookings.filter(b =>
+            b.status === 'Inspection' ||
+            b.status === 'Repair'     ||
+            b.status === 'In Progress'
+          ).length,
+          readyForDelivery: userBookings.filter(b =>
+            b.status === 'Ready For Delivery'
+          ).length,
+        };
 
         // ── recent bookings table (last 5, newest first) ───────────────────
         const sorted = [...userBookings].sort(
@@ -179,36 +159,36 @@ export class DashboardService {
           const pkg = packageMap.get(String(b.serviceId));
           return {
             bookingId: String(b.id),
-            vehicle:   veh  ? `${veh.brand} ${veh.model}` : `Vehicle #${b.vehicleId}`,
-            service:   pkg  ? pkg.name : `Service #${b.serviceId}`,
+            vehicle:   veh ? `${veh.brand} ${veh.model}` : `Vehicle #${b.vehicleId}`,
+            service:   pkg ? pkg.name : `Service #${b.serviceId}`,
             status:    b.status,
           };
         });
 
-        // ── active service progress card ───────────────────────────────────
-        // Pick the most recent "In Progress" tracking record for this user.
-        const inProgressTracking = userTracking.find(
+        // ── active service progress ────────────────────────────────────────
+        // Find a serviceTracking record for this user that isn't complete.
+        const inProgressRecord = userTracking.find(
           t => t.currentStage !== 'Ready For Delivery'
-        ) ?? userTracking[0] ?? null;
+        ) ?? null;
 
         let activeProgress: ActiveServiceProgress | null = null;
 
-        if (inProgressTracking) {
+        if (inProgressRecord) {
           const booking = userBookings.find(
-            b => String(b.id) === String(inProgressTracking.bookingId)
+            b => String(b.id) === String(inProgressRecord.bookingId)
           );
-          const veh = vehicleMap.get(String(inProgressTracking.vehicleId));
+          const veh = vehicleMap.get(String(inProgressRecord.vehicleId));
           const pkg = booking ? packageMap.get(String(booking.serviceId)) : null;
 
           activeProgress = {
-            bookingId:          String(inProgressTracking.bookingId),
+            bookingId:          String(inProgressRecord.bookingId),
             vehicleName:        veh ? `${veh.brand} ${veh.model}` : 'Unknown Vehicle',
             registrationNumber: veh ? veh.vehicleNumber : '—',
             serviceName:        pkg ? pkg.name : 'Unknown Service',
-            currentStage:       inProgressTracking.currentStage,
-            estimatedDelivery:  this.formatDate(inProgressTracking.estimatedDelivery),
-            daysRemaining:      inProgressTracking.daysRemaining,
-            timelineStages:     this.buildDashboardTimeline(inProgressTracking.currentStage),
+            currentStage:       inProgressRecord.currentStage,
+            estimatedDelivery:  this.formatDate(inProgressRecord.estimatedDelivery),
+            daysRemaining:      inProgressRecord.daysRemaining,
+            timelineStages:     this.buildTimeline(inProgressRecord.currentStage),
           };
         }
 
@@ -221,15 +201,15 @@ export class DashboardService {
             const bd = new Date(b.bookingDate);
             return bd >= today && b.status === 'Requested';
           })
-          .sort((a, b) => new Date(a.bookingDate).getTime() - new Date(b.bookingDate).getTime())[0]
-          ?? null;
+          .sort(
+            (a, b) => new Date(a.bookingDate).getTime() - new Date(b.bookingDate).getTime()
+          )[0] ?? null;
 
         let upcomingAppointment: UpcomingAppointment | null = null;
 
         if (upcoming) {
-          const veh = vehicleMap.get(String(upcoming.vehicleId));
-          const pkg = packageMap.get(String(upcoming.serviceId));
-          // Workshop name from any matching tracking record, or default
+          const veh      = vehicleMap.get(String(upcoming.vehicleId));
+          const pkg      = packageMap.get(String(upcoming.serviceId));
           const trackRec = tracking.find(t => String(t.bookingId) === String(upcoming.id));
 
           upcomingAppointment = {
@@ -250,29 +230,12 @@ export class DashboardService {
 
   // ── Private helpers ────────────────────────────────────────────────────────
 
-  private buildSummary(
-    bookings: Booking[],
-    tracking: ServiceTracking[]
-  ): DashboardSummary {
-    return {
-      totalBookings:     bookings.length,
-      completedServices: tracking.filter(t => t.currentStage === 'Ready For Delivery').length,
-      inProgress:        bookings.filter(b => b.status === 'In Progress').length,
-      readyForDelivery:  bookings.filter(b => b.status === 'Ready For Delivery').length,
-    };
-  }
-
-  /**
-   * Builds the five dashboard timeline stages with derived status,
-   * based only on the currentStage string (no serviceTimelines call needed
-   * for the lightweight dashboard view).
-   */
-  private buildDashboardTimeline(currentStage: string): DashboardTimelineStage[] {
+  private buildTimeline(currentStage: string): DashboardTimelineStage[] {
     const currentIndex = STAGE_ORDER.indexOf(currentStage as typeof STAGE_ORDER[number]);
 
     return STAGE_ORDER.map((stage, index) => {
       let status: DashboardTimelineStage['status'];
-      if (index < currentIndex)       status = 'completed';
+      if      (index < currentIndex)  status = 'completed';
       else if (index === currentIndex) status = 'active';
       else                             status = 'pending';
 
@@ -280,7 +243,6 @@ export class DashboardService {
     });
   }
 
-  /** Formats an ISO date string to a human-readable form like "15 June 2026". */
   private formatDate(iso: string): string {
     if (!iso) return '—';
     const d = new Date(iso);
