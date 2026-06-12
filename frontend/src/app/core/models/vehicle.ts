@@ -1,5 +1,5 @@
 export interface Vehicle {
-  id: number;
+  id: number | string;   // json-server returns string IDs ("1", "2", ...)
   userId: number;
   vehicleNumber: string;
   vehicleType: string;
