@@ -1,9 +1,13 @@
 import { Component, OnInit }      from '@angular/core';
 import { CommonModule }             from '@angular/common';
 import { ActivatedRoute, Router }   from '@angular/router';
+//debug code
+import { ChangeDetectorRef } from '@angular/core';
+// end of debug code
 
 import { ServiceTimeline, ServiceStage } from '../../shared/components/service-timeline/service-timeline';
 import { Navbar }                        from '../../shared/components/navbar/navbar';
+import { AuthService }                   from '../../core/services/auth.service';
 import {
   ServiceTrackingService,
   TrackingPageData,
@@ -41,34 +45,51 @@ export class ServiceTracking implements OnInit {
   constructor(
     private router:                 Router,
     private route:                  ActivatedRoute,
+    private auth:                   AuthService,
     private serviceTrackingService: ServiceTrackingService,
+    // debug 
+      private cdr: ChangeDetectorRef
   ) {}
-
+ 
   ngOnInit(): void {
     // Allow a specific booking to be passed as a query-param:
     //   /service-tracking?bookingId=101
     // If absent, falls back to the logged-in user's first active tracking record.
+  
     const bookingId = this.route.snapshot.queryParamMap.get('bookingId');
-    const userId    = localStorage.getItem('userId');
+    const currentUser = this.auth.currentUser();
+    const userId =
+      currentUser?.role === 'admin'
+        ? null
+        : currentUser?.id != null
+          ? String(currentUser.id)
+          : null;
 
     this.serviceTrackingService
       .getTrackingPageData(bookingId, userId)
       .subscribe({
-        next: (data: TrackingPageData | null) => {
-          if (data) {
-            this.bookingId          = data.bookingId;
-            this.vehicle            = data.vehicleName;
-            this.registrationNumber = data.registrationNumber;
-            this.service            = data.serviceName;
-            this.currentStage       = data.currentStage;
-            this.estimatedDelivery  = data.estimatedDelivery;
-            this.daysRemaining      = data.daysRemaining;
-            this.serviceUpdates     = data.serviceUpdates;
+  next: (data: TrackingPageData | null) => {
 
-            // Map EnrichedStage → ServiceStage expected by <app-service-timeline>
-            this.stages = this.mapToServiceStages(data.stages);
-          }
-          this.isLoading = false;
+         if (data) {
+
+  setTimeout(() => {
+
+    this.bookingId = data.bookingId;
+    this.vehicle = data.vehicleName;
+    this.registrationNumber = data.registrationNumber;
+    this.service = data.serviceName;
+    this.currentStage = data.currentStage;
+    this.estimatedDelivery = data.estimatedDelivery;
+    this.daysRemaining = data.daysRemaining;
+    this.serviceUpdates = data.serviceUpdates;
+    this.stages = this.mapToServiceStages(data.stages);
+
+    this.cdr.detectChanges();
+
+  }, 0);
+}
+
+this.isLoading = false;
         },
         error: (err) => {
           console.error('Service tracking data load failed:', err);

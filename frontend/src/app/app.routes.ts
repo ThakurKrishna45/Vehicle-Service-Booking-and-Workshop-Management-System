@@ -9,6 +9,7 @@ import { ManageInvoices }   from './features/admin/manage-invoices/manage-invoic
 import { ManageComplaints } from './features/admin/manage-complaints/manage-complaints';
 import { ManageStatus }     from './features/admin/manage-status/manage-status';
 import { AdminDashboard }   from './features/admin/admin-dashboard/admin-dashboard';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
 
@@ -134,17 +135,26 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminDashboard,
-    canActivate: [authGuard]
+     canActivate: [authGuard, roleGuard],
+    data: {
+      roles: ['admin']
+    }
   },
   {
     path: 'admin/invoices',
     component: ManageInvoices,
-    canActivate: [authGuard]
+     canActivate: [authGuard, roleGuard],
+    data: {
+      roles: ['admin']
+    }
   },
   {
     path: 'admin/complaints',
     component: ManageComplaints,
-    canActivate: [authGuard]
+     canActivate: [authGuard, roleGuard],
+    data: {
+      roles: ['admin']
+    }
   },
   {
     path: 'admin/status',

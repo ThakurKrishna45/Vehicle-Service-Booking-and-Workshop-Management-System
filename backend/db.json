@@ -33,16 +33,46 @@
       "role": "customer"
     }
   ],
-  "vehicles": [
+ "vehicles": [
     {
       "id": 1,
-      "userId": 2,
+      "userId": 1,
       "vehicleNumber": "UP32AB1234",
       "vehicleType": "Car",
       "brand": "Honda",
       "model": "City",
       "year": 2022,
       "odometer": 15000
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "vehicleNumber": "DL01CD5678",
+      "vehicleType": "Car",
+      "brand": "Maruti",
+      "model": "Swift",
+      "year": 2021,
+      "odometer": 22000
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "vehicleNumber": "MH04EF9012",
+      "vehicleType": "SUV",
+      "brand": "Hyundai",
+      "model": "Creta",
+      "year": 2023,
+      "odometer": 8500
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "vehicleNumber": "KA03GH3456",
+      "vehicleType": "Hatchback",
+      "brand": "Tata",
+      "model": "Nexon",
+      "year": 2020,
+      "odometer": 31000
     }
   ],
   "servicePackages": [
@@ -74,7 +104,7 @@
   "bookings": [
     {
       "id": 1,
-      "userId": 2,
+      "userId": 1,
       "vehicleId": 1,
       "serviceId": 1,
       "bookingDate": "2026-06-10",
@@ -153,7 +183,7 @@
   "status": "Repair"
 },
 {
-  "id": "9",
+  "id": "101",
   "userId": 1,
   "vehicleId": 1,
   "serviceId": 2,
@@ -193,7 +223,7 @@
   "status": "Repair"
 },
 {
-  "id": "13",
+  "id": "102",
   "userId": 1,
   "vehicleId": 2,
   "serviceId": 1,
@@ -273,18 +303,170 @@
   "status": "Completed"
 }
   ],
-  "serviceTracking": [
-  {
-    "id": 1,
-    "bookingId": 1,
-    "userId": 2,
-    "vehicleId": 1,
-    "currentStage": "Inspection",
-    "estimatedDelivery": "2026-06-15",
-    "daysRemaining": 3,
-    "workshopName": "Sprint Auto Care"
-  }
-],
+ "serviceTracking": [
+    {
+      "id": "1",
+      "bookingId": "1",
+      "userId": "1",
+      "vehicleId": 1,
+      "currentStage": "Inspection",
+      "estimatedDelivery": "2026-06-18",
+      "daysRemaining": 6,
+      "workshopName": "Sprint Auto Care"
+    },
+    {
+      "id": "2",
+      "bookingId": "4",
+      "userId": "2",
+      "vehicleId": 2,
+      "currentStage": "Repair",
+      "estimatedDelivery": "2026-06-17",
+      "daysRemaining": 5,
+      "workshopName": "Sprint Auto Care"
+    },
+    {
+      "id": "3",
+      "bookingId": "6",
+      "userId": "3",
+      "vehicleId": 3,
+      "currentStage": "Repair",
+      "estimatedDelivery": "2026-06-19",
+      "daysRemaining": 7,
+      "workshopName": "Sprint Auto Care"
+    },
+    {
+      "id": "4",
+      "bookingId": "8",
+      "userId": "4",
+      "vehicleId": 4,
+      "currentStage": "Quality Check",
+      "estimatedDelivery": "2026-06-20",
+      "daysRemaining": 8,
+      "workshopName": "Sprint Auto Care"
+    }
+  ],
+   "serviceTimelines": [
+    {
+      "id": "1",
+      "bookingId": "1",
+      "stage": "Received",
+      "updatedAt": "2026-06-10T09:00:00"
+    },
+    {
+      "id": "2",
+      "bookingId": "1",
+      "stage": "Inspection",
+      "updatedAt": "2026-06-10T11:30:00"
+    },
+    {
+      "id": "3",
+      "bookingId": "1",
+      "stage": "Repair",
+      "updatedAt": null
+    },
+    {
+      "id": "4",
+      "bookingId": "1",
+      "stage": "Quality Check",
+      "updatedAt": null
+    },
+    {
+      "id": "5",
+      "bookingId": "1",
+      "stage": "Ready For Delivery",
+      "updatedAt": null
+    },
+    {
+      "id": "6",
+      "bookingId": "4",
+      "stage": "Received",
+      "updatedAt": "2026-06-12T08:00:00"
+    },
+    {
+      "id": "7",
+      "bookingId": "4",
+      "stage": "Inspection",
+      "updatedAt": "2026-06-12T10:00:00"
+    },
+    {
+      "id": "8",
+      "bookingId": "4",
+      "stage": "Repair",
+      "updatedAt": "2026-06-12T14:00:00"
+    },
+    {
+      "id": "9",
+      "bookingId": "4",
+      "stage": "Quality Check",
+      "updatedAt": null
+    },
+    {
+      "id": "10",
+      "bookingId": "4",
+      "stage": "Ready For Delivery",
+      "updatedAt": null
+    },
+    {
+      "id": "11",
+      "bookingId": "6",
+      "stage": "Received",
+      "updatedAt": "2026-06-14T09:00:00"
+    },
+    {
+      "id": "12",
+      "bookingId": "6",
+      "stage": "Inspection",
+      "updatedAt": "2026-06-14T11:00:00"
+    },
+    {
+      "id": "13",
+      "bookingId": "6",
+      "stage": "Repair",
+      "updatedAt": "2026-06-14T13:00:00"
+    },
+    {
+      "id": "14",
+      "bookingId": "6",
+      "stage": "Quality Check",
+      "updatedAt": null
+    },
+    {
+      "id": "15",
+      "bookingId": "6",
+      "stage": "Ready For Delivery",
+      "updatedAt": null
+    },
+    {
+      "id": "16",
+      "bookingId": "8",
+      "stage": "Received",
+      "updatedAt": "2026-06-15T08:30:00"
+    },
+    {
+      "id": "17",
+      "bookingId": "8",
+      "stage": "Inspection",
+      "updatedAt": "2026-06-15T10:30:00"
+    },
+    {
+      "id": "18",
+      "bookingId": "8",
+      "stage": "Repair",
+      "updatedAt": "2026-06-15T13:00:00"
+    },
+    {
+      "id": "19",
+      "bookingId": "8",
+      "stage": "Quality Check",
+      "updatedAt": "2026-06-15T16:00:00"
+    },
+    {
+      "id": "20",
+      "bookingId": "8",
+      "stage": "Ready For Delivery",
+      "updatedAt": null
+    }
+  ],
   "invoices": [
     {
       "id": "1",
