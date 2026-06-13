@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin, map, switchMap, of } from 'rxjs';
+import { Observable, forkJoin, map, of } from 'rxjs';
 
 import { ServiceTracking } from '../models/service-tracking';
 import { ServiceHistory }  from '../models/service-history';
@@ -64,8 +64,8 @@ export interface TrackingPageData {
   currentStage:       string;
   estimatedDelivery:  string;
   daysRemaining:      number;
-  stages:             EnrichedStage[];        // for <app-service-timeline>
-  serviceUpdates:     ServiceUpdateRow[];     // for the updates table
+  stages:             EnrichedStage[];
+  serviceUpdates:     ServiceUpdateRow[];
 }
 
 // ─── Stage-label → update message map ────────────────────────────────────────
@@ -77,6 +77,20 @@ const STAGE_UPDATE_LABELS: Record<string, string> = {
   'Quality Check':      'Quality check in progress',
   'Ready For Delivery': 'Vehicle is ready for delivery',
 };
+
+// ─── Session reader ───────────────────────────────────────────────────────────
+
+/** Reads the session stored by AuthService under 'vehicle-service-session'. */
+function readSessionUserId(): string | null {
+  try {
+    const raw = localStorage.getItem('vehicle-service-session');
+    if (!raw) return null;
+    const session = JSON.parse(raw) as { id?: string | number };
+    return session?.id != null ? String(session.id) : null;
+  } catch {
+    return null;
+  }
+}
 
 // ─── Service ─────────────────────────────────────────────────────────────────
 
@@ -160,13 +174,18 @@ export class ServiceTrackingService {
    *     stages that have a non-null updatedAt get a row, sorted newest first).
    *
    * @param bookingId  The booking to show tracking for.
-   *                   If null, falls back to the first active tracking record.
-   * @param userId     Optional — used to filter to the logged-in user's data.
+   *                   If null, falls back to the first active tracking record for the user.
+   * @param userId     The logged-in user's ID. When null, reads automatically
+   *                   from the 'vehicle-service-session' localStorage key.
    */
   getTrackingPageData(
     bookingId: string | null,
     userId: string | null = null
   ): Observable<TrackingPageData | null> {
+
+    // ── Always resolve userId from session if not explicitly provided ──────
+    const resolvedUserId = userId ?? readSessionUserId();
+
 
     return forkJoin({
       allTracking:     this.getAllTracking(),
@@ -178,6 +197,7 @@ export class ServiceTrackingService {
       map(({ allTracking, allTimelines, vehicles, servicePackages, bookings }) => {
 
         // ── lookup maps ────────────────────────────────────────────────────
+        // All IDs stringified to prevent int/string mismatch (Bug 4 fix).
         const vehicleMap  = new Map(vehicles.map(v  => [String(v.id),  v]));
         const packageMap  = new Map(servicePackages.map(p => [String(p.id), p]));
         const bookingMap  = new Map(bookings.map(b => [String(b.id), b]));
@@ -186,17 +206,27 @@ export class ServiceTrackingService {
         let tracking: ServiceTracking | null = null;
 
         if (bookingId) {
+          // Explicit bookingId from query param — find by bookingId first
           tracking = allTracking.find(
             t => String(t.bookingId) === String(bookingId)
           ) ?? null;
-        } else if (userId) {
-          // First active (non-delivered) tracking record for the user
-          tracking = allTracking.find(
-            t => String(t.userId) === String(userId)
-               && t.currentStage !== 'Ready For Delivery'
-          ) ?? allTracking.find(t => String(t.userId) === String(userId)) ?? null;
-        } else {
-          // Fallback: first record in the collection
+        }
+
+        if (!tracking && resolvedUserId) {
+          // No bookingId or no result — find the first active record for this user.
+          // String-coerce both sides to handle int vs string IDs (Bug 3 & 4 fix).
+          tracking =
+            allTracking.find(
+              t =>
+                String(t.userId) === String(resolvedUserId) &&
+                t.currentStage !== 'Ready For Delivery'
+            ) ??
+            allTracking.find(t => String(t.userId) === String(resolvedUserId)) ??
+            null;
+        }
+
+        if (!tracking) {
+          // Last-resort fallback: first record in the collection
           tracking = allTracking[0] ?? null;
         }
 
@@ -220,11 +250,18 @@ export class ServiceTrackingService {
               TIMELINE_STAGES.indexOf(b.stage as TimelineStage)
           );
 
+        // If no timeline entries exist for this booking, synthesise them from
+        // the currentStage so the UI always renders something meaningful.
+        const effectiveTimelines: ServiceTimeline[] =
+          bookingTimelines.length > 0
+            ? bookingTimelines
+            : this.synthesiseTimelines(String(tracking.bookingId), tracking.currentStage);
+
         // ── enrich stages ──────────────────────────────────────────────────
-        const stages = this.enrichStages(bookingTimelines, tracking.currentStage);
+        const stages = this.enrichStages(effectiveTimelines, tracking.currentStage);
 
         // ── build update rows from completed timeline entries ──────────────
-        const serviceUpdates: ServiceUpdateRow[] = bookingTimelines
+        const serviceUpdates: ServiceUpdateRow[] = effectiveTimelines
           .filter(t => t.updatedAt !== null)
           .sort(
             (a, b) =>
@@ -233,7 +270,9 @@ export class ServiceTrackingService {
           .map(t => {
             const dt   = new Date(t.updatedAt!);
             const date = dt.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
-            const time = dt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase();
+            const time = dt.toLocaleTimeString('en-IN', {
+              hour: '2-digit', minute: '2-digit', hour12: true
+            }).toUpperCase();
             return {
               date,
               time,
@@ -274,26 +313,6 @@ export class ServiceTrackingService {
     );
   }
 
-  getTrackingDetailWithTechnician(bookingId: string): Observable<TrackingDetail> {
-    return this.getTrackingByBookingId(bookingId).pipe(
-      switchMap(tracking => {
-        if (!tracking) {
-          return of({ tracking: null as unknown as ServiceTracking, technician: null, stages: [] });
-        }
-        return forkJoin({
-          timelines:  this.getTimelineByBookingId(bookingId),
-          technician: this.getTechnicianById(tracking.technicianId),
-        }).pipe(
-          map(({ timelines, technician }) => ({
-            tracking,
-            technician,
-            stages: this.enrichStages(timelines, tracking.currentStage),
-          }))
-        );
-      })
-    );
-  }
-
   // ── Public helpers ─────────────────────────────────────────────────────────
 
   /**
@@ -301,23 +320,27 @@ export class ServiceTrackingService {
    * returns an array of EnrichedStage objects in canonical order.
    *
    * Rules:
-   *  - stage === currentStage                    → 'active'
-   *  - entry with non-null updatedAt             → 'completed'
-   *  - everything else                           → 'pending'
+   *  - stage index < currentStage index AND updatedAt is non-null → 'completed'
+   *  - stage === currentStage                                      → 'active'
+   *  - everything else                                             → 'pending'
    */
   enrichStages(
     timelines: ServiceTimeline[],
     currentStage: string
   ): EnrichedStage[] {
-    const timelineMap = new Map(timelines.map(t => [t.stage, t]));
+    const timelineMap   = new Map(timelines.map(t => [t.stage, t]));
+    const currentIndex  = TIMELINE_STAGES.indexOf(currentStage as TimelineStage);
 
-    return TIMELINE_STAGES.map(stage => {
+    return TIMELINE_STAGES.map((stage, idx) => {
       const entry = timelineMap.get(stage);
 
       let status: EnrichedStage['status'];
 
       if (stage === currentStage) {
         status = 'active';
+      } else if (idx < currentIndex) {
+        // All stages before the current one are treated as completed
+        status = 'completed';
       } else if (entry?.updatedAt != null) {
         status = 'completed';
       } else {
@@ -334,9 +357,23 @@ export class ServiceTrackingService {
 
   // ── Private helpers ────────────────────────────────────────────────────────
 
-  private stageToUpdateType(
-    stage: string
-  ): ServiceUpdateRow['type'] {
+  /**
+   * Synthesises a minimal timeline when no serviceTimelines rows exist for a booking.
+   * Marks all stages up to and including the currentStage as completed/active.
+   */
+  private synthesiseTimelines(bookingId: string, currentStage: string): ServiceTimeline[] {
+    const currentIndex = TIMELINE_STAGES.indexOf(currentStage as TimelineStage);
+    const now          = new Date().toISOString();
+
+    return TIMELINE_STAGES.map((stage, idx) => ({
+      id:        `synth-${bookingId}-${idx}`,
+      bookingId,
+      stage,
+      updatedAt: idx <= currentIndex ? now : null,
+    }));
+  }
+
+  private stageToUpdateType(stage: string): ServiceUpdateRow['type'] {
     switch (stage) {
       case 'Received':           return 'received';
       case 'Ready For Delivery': return 'completed';

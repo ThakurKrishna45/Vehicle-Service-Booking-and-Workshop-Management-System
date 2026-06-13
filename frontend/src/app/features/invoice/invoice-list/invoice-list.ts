@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 
 import { Invoice } from '../../../core/models/invoice';
 import { InvoiceService } from '../../../core/services/invoice';
+import { AuthService } from '../../../core/services/auth.service';
+import { BookingService } from '../../../core/services/booking';
 
 @Component({
   selector: 'app-invoice-list',
@@ -21,7 +23,14 @@ export class InvoiceList {
   private invoiceService =
     inject(InvoiceService);
 
-  invoices = signal<Invoice[]>([]);
+  private bookingService =
+    inject(BookingService);
+
+  private auth =
+    inject(AuthService);
+
+  invoices =
+    signal<Invoice[]>([]);
 
   constructor() {
     this.loadInvoices();
@@ -29,26 +38,130 @@ export class InvoiceList {
 
   loadInvoices(): void {
 
-    this.invoiceService
-      .getAllInvoices()
+    const currentUser =
+      this.auth.currentUser();
+
+    console.log(
+      'Current User:',
+      currentUser
+    );
+
+    // Admin → All invoices
+    if (currentUser?.role === 'admin') {
+
+      this.invoiceService
+        .getAllInvoices()
+        .subscribe({
+
+          next: (data) => {
+
+            console.log(
+              'All Invoices:',
+              data
+            );
+
+            this.invoices.set(data);
+
+          },
+
+          error: (err) => {
+
+            console.error(
+              'Invoice Error:',
+              err
+            );
+
+          }
+
+        });
+
+      return;
+
+    }
+
+    // Customer → Only own invoices
+    this.bookingService
+      .getBookings()
       .subscribe({
-        next: (data) => {
+
+        next: (bookings) => {
 
           console.log(
-            'Invoices from API:',
-            data
+            'All Bookings:',
+            bookings
           );
 
-          this.invoices.set(data);
+          const userBookingIds =
+            bookings
+              .filter(
+                booking =>
+                  Number(booking.userId) ===
+                  Number(currentUser?.id)
+              )
+              .map(
+                booking =>
+                  Number(booking.id)
+              );
+
+          console.log(
+            'User Booking IDs:',
+            userBookingIds
+          );
+
+          this.invoiceService
+            .getAllInvoices()
+            .subscribe({
+
+              next: (invoices) => {
+
+                console.log(
+                  'All Invoices:',
+                  invoices
+                );
+
+                const filteredInvoices =
+                  invoices.filter(
+                    invoice =>
+                      userBookingIds.includes(
+                        Number(invoice.bookingId)
+                      )
+                  );
+
+                console.log(
+                  'Filtered Invoices:',
+                  filteredInvoices
+                );
+
+                this.invoices.set(
+                  filteredInvoices
+                );
+
+              },
+
+              error: (err) => {
+
+                console.error(
+                  'Invoice Error:',
+                  err
+                );
+
+              }
+
+            });
+
         },
+
         error: (err) => {
 
           console.error(
-            'Invoice API Error:',
+            'Booking Error:',
             err
           );
+
         }
+
       });
 
   }
+
 }

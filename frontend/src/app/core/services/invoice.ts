@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Invoice } from '../models/invoice';
 
 @Injectable({
@@ -20,6 +20,24 @@ export class InvoiceService {
     return this.http.get<Invoice>(
       `${this.apiUrl}/${id}`
     );
+  }
+
+  getInvoicesByBookingIds(
+    bookingIds: number[]
+  ): Observable<Invoice[]> {
+
+    return this.http
+      .get<Invoice[]>(this.apiUrl)
+      .pipe(
+        map(invoices =>
+          invoices.filter(invoice =>
+            bookingIds.includes(
+              Number(invoice.bookingId)
+            )
+          )
+        )
+      );
+
   }
 
   updateInvoice(
