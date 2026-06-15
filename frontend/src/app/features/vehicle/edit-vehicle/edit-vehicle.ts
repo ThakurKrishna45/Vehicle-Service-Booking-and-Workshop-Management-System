@@ -25,7 +25,7 @@ export class EditVehicle implements OnInit {
   readonly vehicleTypes = ['Car', 'Motorcycle', 'SUV', 'Truck', 'Van'];
   readonly currentYear = new Date().getFullYear();
 
-  // Store as string to preserve json-server IDs like "1", "2"
+ 
   private vehicleId!: string;
 
   readonly form = this.fb.nonNullable.group({
@@ -46,7 +46,7 @@ export class EditVehicle implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Read the route param as a string — json-server uses string IDs
+  
     this.vehicleId = this.route.snapshot.paramMap.get('id') ?? '';
 
     if (!this.vehicleId) {

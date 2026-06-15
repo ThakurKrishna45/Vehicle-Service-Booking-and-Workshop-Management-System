@@ -25,7 +25,7 @@ export class AddVehicle {
   readonly vehicleTypes = ['Car', 'Motorcycle', 'SUV', 'Truck', 'Van'];
   readonly currentYear = new Date().getFullYear();
 
-  // Dynamic form fields generated from configuration metadata
+  
   readonly formFields = [
     { name: 'vehicleNumber', label: 'Vehicle Registration Number', type: 'text', placeholder: 'e.g. MH12AB1234' },
     { name: 'brand',         label: 'Brand',                        type: 'text', placeholder: 'e.g. Honda' },

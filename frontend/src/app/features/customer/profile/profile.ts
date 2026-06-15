@@ -21,14 +21,14 @@ export class Profile implements OnInit {
   readonly successMessage = signal('');
   readonly errorMessage = signal('');
 
-  // Reactive Form for main profile details
+  
   readonly profileForm = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     phone: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]]
   });
 
-  // Template-Driven Form model for preferences
+ 
   preferences = {
     serviceReminders: true,
     preferredSlot: 'Morning',
